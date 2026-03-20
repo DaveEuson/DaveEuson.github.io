@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dave Euson</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=DM+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100vh; overflow: hidden; background: #000; }
+body { display: flex; position: relative; }
+
+/* ═══════════════════════════
+   LANDING SCREEN
+═══════════════════════════ */
+#landing {
+  position: fixed; inset: 0; z-index: 500;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: #000;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+#landing.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.landing-name {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: clamp(32px, 6vw, 72px);
+  color: #e9d5ff;
+  letter-spacing: 0.12em;
+  text-align: center;
+  line-height: 1;
+  /* subtle split: left half green, right half purple */
+  background: linear-gradient(90deg, #39d353 0%, #39d353 49%, #c084fc 51%, #c084fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: fadeUp 0.9s ease both;
+}
+.landing-sub {
+  margin-top: 18px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: clamp(10px, 1.4vw, 13px);
+  letter-spacing: 0.28em;
+  color: rgba(255,255,255,0.25);
+  text-align: center;
+  animation: fadeUp 0.9s 0.25s ease both;
+}
+.landing-divider {
+  width: 1px; height: 60px; margin: 36px auto 36px;
+  background: linear-gradient(to bottom, rgba(57,211,83,0.5), rgba(192,132,252,0.5));
+  animation: fadeUp 0.9s 0.4s ease both;
+}
+.landing-choices {
+  display: flex; gap: 24px;
+  animation: fadeUp 0.9s 0.55s ease both;
+}
+.choose-btn {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: clamp(10px, 1.3vw, 12px);
+  letter-spacing: 0.22em;
+  padding: 13px 32px;
+  border-radius: 2px;
+  cursor: pointer;
+  background: transparent;
+  transition: background 0.25s, color 0.25s, border-color 0.25s, transform 0.18s;
+}
+.choose-btn:hover { transform: translateY(-2px); }
+.choose-btn.tech {
+  color: #39d353;
+  border: 1px solid rgba(57,211,83,0.35);
+}
+.choose-btn.tech:hover { background: rgba(57,211,83,0.08); border-color: rgba(57,211,83,0.7); }
+.choose-btn.creative {
+  color: #c084fc;
+  border: 1px solid rgba(192,132,252,0.35);
+}
+.choose-btn.creative:hover { background: rgba(192,132,252,0.08); border-color: rgba(192,132,252,0.7); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════
+   DIVIDER
+═══════════════════════════ */
+.divider {
+  position: fixed; top: 0; left: 50%;
+  width: 1px; height: 100vh; z-index: 100; pointer-events: none;
+  background: linear-gradient(to bottom,
+    transparent 0%, rgba(120,200,100,0.4) 20%,
+    rgba(180,120,255,0.55) 50%, rgba(120,200,100,0.4) 80%, transparent 100%);
+  transition: left 0.7s cubic-bezier(0.77,0,0.175,1), opacity 0.4s;
+}
+body.hover-left  .divider { left: 65%; }
+body.hover-right .divider { left: 35%; }
+body.full-left   .divider { left: 100%; opacity: 0; }
+body.full-right  .divider { left: 0%; opacity: 0; }
+
+/* ═══════════════════════════
+   SIDES
+═══════════════════════════ */
+.side {
+  position: relative; height: 100vh; overflow: hidden;
+  transition: width 0.7s cubic-bezier(0.77,0,0.175,1);
+  cursor: pointer;
+}
+.left  { width: 50%; }
+.right { width: 50%; }
+body.hover-left  .left  { width: 65%; }
+body.hover-left  .right { width: 35%; }
+body.hover-right .right { width: 65%; }
+body.hover-right .left  { width: 35%; }
+body.full-left   .left  { width: 100%; cursor: default; }
+body.full-left   .right { width: 0%; }
+body.full-right  .right { width: 100%; cursor: default; }
+body.full-right  .left  { width: 0%; }
+
+/* back button */
+.back-btn {
+  display: none; position: fixed;
+  top: 22px; left: 50%; transform: translateX(-50%);
+  z-index: 300; cursor: pointer;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px; letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.3);
+  background: rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 3px; padding: 7px 18px;
+  transition: color 0.2s, border-color 0.2s;
+}
+.back-btn:hover { color: rgba(255,255,255,0.7); border-color: rgba(255,255,255,0.3); }
+body.full-left .back-btn, body.full-right .back-btn { display: block; }
+
+/* ═══════════════════════════
+   LEFT — TERMINAL
+═══════════════════════════ */
+.left-bg { position: absolute; inset: 0; background: #050e05; }
+.scanlines {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: repeating-linear-gradient(to bottom,
+    transparent 0px, transparent 2px, rgba(0,0,0,0.13) 2px, rgba(0,0,0,0.13) 4px);
+}
+.crt-vignette {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.6) 100%);
+}
+.left-inner {
+  position: relative; z-index: 2; height: 100%;
+  padding: 52px 52px 40px;
+  display: flex; flex-direction: column; gap: 22px;
+  font-family: 'Share Tech Mono', monospace; color: #39d353; overflow-y: auto;
+  scrollbar-width: none;
+}
+.left-inner::-webkit-scrollbar { display: none; }
+
+.term-bar { font-size: 11px; color: #1a6e2a; letter-spacing: 0.12em; border-bottom: 1px solid rgba(57,211,83,0.12); padding-bottom: 12px; }
+.term-name { font-size: 42px; color: #39d353; letter-spacing: 0.06em; text-shadow: 0 0 28px rgba(57,211,83,0.38); line-height: 1; }
+.term-role { font-size: 12px; color: #1e8f30; letter-spacing: 0.18em; margin-top: 6px; }
+.term-key { font-size: 10px; color: #1a6e2a; letter-spacing: 0.22em; margin-bottom: 7px; }
+.term-val {
+  font-size: 12.5px; color: #2fc446; line-height: 1.85;
+  padding: 14px 18px; border: 1px solid rgba(57,211,83,0.1);
+  border-radius: 2px; background: rgba(57,211,83,0.025);
+}
+.term-section { display: flex; flex-direction: column; }
+.term-links { display: flex; flex-direction: column; gap: 8px; }
+.tlink {
+  display: flex; align-items: center; gap: 14px;
+  padding: 11px 16px; border: 1px solid rgba(57,211,83,0.15); border-radius: 2px;
+  color: #39d353; text-decoration: none; font-family: 'Share Tech Mono', monospace;
+  transition: background 0.2s, border-color 0.2s;
+}
+.tlink:hover { background: rgba(57,211,83,0.06); border-color: rgba(57,211,83,0.45); }
+.link-label { display: flex; flex-direction: column; gap: 2px; }
+.link-name-l { font-size: 9px; color: #1a6e2a; letter-spacing: 0.2em; }
+.link-url-l  { font-size: 12px; color: #39d353; }
+.cursor { display: inline-block; width: 10px; height: 19px; background: #39d353; vertical-align: middle; margin-left: 5px; animation: blink 1.1s step-end infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ═══════════════════════════
+   RIGHT — DREAMY
+═══════════════════════════ */
+.right-bg { position: absolute; inset: 0; background: #0d0810; }
+.aurora { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+.aurora-layer { position: absolute; border-radius: 50%; filter: blur(80px); }
+.a1 { width: 560px; height: 460px; top: -120px; left: -80px; opacity: 0.6; background: radial-gradient(ellipse, #6b21a8 0%, transparent 70%); animation: float1 13s ease-in-out infinite alternate; }
+.a2 { width: 480px; height: 400px; bottom: -100px; right: -60px; opacity: 0.5; background: radial-gradient(ellipse, #be185d 0%, transparent 70%); animation: float2 16s ease-in-out infinite alternate; }
+.a3 { width: 360px; height: 300px; top: 38%; left: 18%; opacity: 0.28; background: radial-gradient(ellipse, #1d4ed8 0%, transparent 70%); animation: float1 20s ease-in-out infinite alternate-reverse; }
+.a4 { width: 260px; height: 220px; top: 8%; right: 12%; opacity: 0.22; background: radial-gradient(ellipse, #9f1239 0%, transparent 70%); animation: float2 11s ease-in-out infinite alternate; }
+@keyframes float1 { from { transform: translate(0,0) scale(1); } to { transform: translate(28px,36px) scale(1.08); } }
+@keyframes float2 { from { transform: translate(0,0) scale(1); } to { transform: translate(-22px,-26px) scale(1.06); } }
+.grain { position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0.055; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size: 200px; }
+.particles { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.p { position: absolute; border-radius: 50%; background: #fff; animation: drift var(--t,6s) ease-in-out infinite alternate; opacity: var(--o,0.15); }
+@keyframes drift { from { transform: translateY(0) translateX(0); } to { transform: translateY(var(--dy,-20px)) translateX(var(--dx,10px)); } }
+
+.right-inner {
+  position: relative; z-index: 2; height: 100%;
+  padding: 52px 52px 40px;
+  display: flex; flex-direction: column; gap: 22px;
+  font-family: 'DM Sans', sans-serif; color: #e9d5ff; overflow-y: auto;
+  scrollbar-width: none;
+}
+.right-inner::-webkit-scrollbar { display: none; }
+
+.dream-bar { font-size: 11px; color: #7c3aed; letter-spacing: 0.22em; border-bottom: 1px solid rgba(124,58,237,0.15); padding-bottom: 12px; font-weight: 300; }
+.dream-name { font-size: 42px; font-weight: 300; color: #f3e8ff; letter-spacing: 0.03em; text-shadow: 0 0 40px rgba(167,139,250,0.38); line-height: 1; }
+.dream-role { font-size: 12px; color: #9f67f5; letter-spacing: 0.22em; margin-top: 6px; font-weight: 300; }
+.dream-key { font-size: 10px; color: #7c3aed; letter-spacing: 0.24em; font-weight: 400; margin-bottom: 7px; }
+.dream-val {
+  font-size: 12.5px; color: #c4b5fd; line-height: 1.85; font-weight: 300;
+  padding: 14px 18px; border: 1px solid rgba(167,139,250,0.12);
+  border-radius: 10px; background: rgba(109,40,217,0.055);
+}
+.dream-val em { font-style: italic; color: #ddd6fe; }
+.dream-section { display: flex; flex-direction: column; }
+.dream-links { display: flex; flex-direction: column; gap: 8px; }
+.dlink {
+  display: flex; align-items: center; gap: 14px;
+  padding: 11px 16px; border: 1px solid rgba(167,139,250,0.15); border-radius: 10px;
+  color: #ddd6fe; text-decoration: none; font-family: 'DM Sans', sans-serif; font-weight: 300;
+  transition: background 0.2s, border-color 0.2s;
+}
+.dlink:hover { background: rgba(109,40,217,0.1); border-color: rgba(167,139,250,0.4); }
+.link-name-r { font-size: 9px; color: #7c3aed; letter-spacing: 0.2em; }
+.link-url-r  { font-size: 12px; color: #ddd6fe; }
+
+.hint {
+  position: fixed; bottom: 18px; width: 100%; left: 0; text-align: center;
+  z-index: 200; pointer-events: none; font-size: 10px; letter-spacing: 0.18em;
+  color: rgba(255,255,255,0.1); font-family: 'Share Tech Mono', monospace; transition: opacity 0.4s;
+}
+body.full-left .hint, body.full-right .hint { opacity: 0; }
+</style>
+</head>
+<body>
+
+<!-- ═══ LANDING ═══ -->
+<div id="landing">
+  <div class="landing-name">DAVE EUSON</div>
+  <div class="landing-sub">WHO ARE YOU HERE FOR?</div>
+  <div class="landing-divider"></div>
+  <div class="landing-choices">
+    <button class="choose-btn tech"     id="chooseLeft">[ THE ARCHITECT ]</button>
+    <button class="choose-btn creative" id="chooseRight">[ THE CREATOR ]</button>
+  </div>
+</div>
+
+<div class="divider"></div>
+<div class="back-btn" id="backBtn">[ BACK TO SPLIT ]</div>
+
+<!-- ═══ LEFT ═══ -->
+<div class="side left" id="leftSide">
+  <div class="left-bg"></div>
+  <div class="scanlines"></div>
+  <div class="crt-vignette"></div>
+  <div class="left-inner">
+
+    <div class="term-bar">&#9608; DAVE_EUSON.EXE &nbsp;//&nbsp; INITIALIZED</div>
+
+    <div>
+      <div class="term-name">DAVE EUSON<span class="cursor"></span></div>
+      <div class="term-role">&gt; SOLUTIONS ARCHITECT &nbsp;//&nbsp; MEDIA &amp; BROADCAST TECHNOLOGY</div>
+    </div>
+
+    <div class="term-section">
+      <div class="term-key">// ABOUT</div>
+      <div class="term-val">
+        I bridge the gap between complex cloud-native infrastructure
+        and the high-pressure demands of modern media workflows.
+        With 15+ years across broadcast, post-production, and cloud,
+        I'm a generalist who goes deep when it counts.<br><br>
+        While many architects focus solely on the "how" of integration,
+        I differentiate myself by deeply understanding the "why" of
+        the creative process. I don't just build technical stacks —
+        I design resilient, automated ecosystems that empower editors
+        and producers to stay in their flow without the friction
+        of technical overhead.<br><br>
+        My career has taken me from post-production bays and broadcast
+        floors to pre-sales, technical account management, and
+        solutions architecture — always customer-facing, always
+        building something that actually works.
+      </div>
+    </div>
+
+    <div class="term-section">
+      <div class="term-key">// STACK</div>
+      <div class="term-val">
+        Node-RED &nbsp;·&nbsp; AWS &nbsp;·&nbsp; FFmpeg &nbsp;·&nbsp; Docker<br>
+        Datarhei &nbsp;·&nbsp; Slack APIs &nbsp;·&nbsp; S3 &nbsp;·&nbsp; REST &amp; Webhook Integrations<br>
+        MAM/DAM Systems &nbsp;·&nbsp; Avid &nbsp;·&nbsp; Broadcast Workflows
+      </div>
+    </div>
+
+    <div class="term-section">
+      <div class="term-key">// CONNECT</div>
+      <div class="term-links">
+        <a class="tlink" href="https://linkedin.com/in/daveeusonpost" target="_blank">
+          <svg width="26" height="26" viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="#39d353" fill-opacity="0.15"/><path d="M7 9h2v8H7V9zm1-3a1.1 1.1 0 1 1 0 2.2A1.1 1.1 0 0 1 8 6zm4 3h2v1.1C14.4 9.4 15 9 16 9c2 0 3 1.3 3 3.3V17h-2v-4.5c0-1-.4-1.5-1.2-1.5S14 11.6 14 12.7V17h-2V9z" fill="#39d353"/></svg>
+          <div class="link-label"><span class="link-name-l">LINKEDIN</span><span class="link-url-l">linkedin.com/in/daveeusonpost</span></div>
+        </a>
+        <a class="tlink" href="https://github.com/DaveEuson" target="_blank">
+          <svg width="26" height="26" viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="#39d353" fill-opacity="0.15"/><path fill-rule="evenodd" clip-rule="evenodd" d="M12 4a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38v-1.34c-2.23.49-2.7-1.07-2.7-1.07-.36-.93-.89-1.17-.89-1.17-.73-.5.05-.49.05-.49.8.06 1.23.83 1.23.83.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.65 7.65 0 0 1 12 9.3c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.19c0 .21.15.46.55.38A8 8 0 0 0 12 4z" fill="#39d353"/></svg>
+          <div class="link-label"><span class="link-name-l">GITHUB</span><span class="link-url-l">github.com/DaveEuson</span></div>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ RIGHT ═══ -->
+<div class="side right" id="rightSide">
+  <div class="right-bg"></div>
+  <div class="aurora">
+    <div class="aurora-layer a1"></div>
+    <div class="aurora-layer a2"></div>
+    <div class="aurora-layer a3"></div>
+    <div class="aurora-layer a4"></div>
+  </div>
+  <div class="grain"></div>
+  <div class="particles" id="particles"></div>
+  <div class="right-inner">
+
+    <div class="dream-bar">✦ &nbsp; SIGNAL &nbsp;/&nbsp; NOISE &nbsp; ✦</div>
+
+    <div>
+      <div class="dream-name">Dave Euson</div>
+      <div class="dream-role">MUSICIAN &nbsp;·&nbsp; PHOTOGRAPHER</div>
+    </div>
+
+    <div class="dream-section">
+      <div class="dream-key">✦ &nbsp; ABOUT</div>
+      <div class="dream-val">
+        Creativity, for me, is about capturing the texture of a moment —
+        whether that's through a melody that aches just right, or the
+        precise framing of a city street at the wrong hour.<br><br>
+        As an electronic music producer, I'm driven by the architecture
+        of sound — blending digital precision with the soul of physical
+        media. My photography follows a similar pulse: finding rhythm
+        in urban landscapes and live performances, the still frame
+        that holds a feeling.<br><br>
+        Both are essential. Both are honest. Everything written,
+        mixed, shot, and produced by a human. <em>Always.</em>
+      </div>
+    </div>
+
+    <div class="dream-section">
+      <div class="dream-key">✦ &nbsp; CREATIVE STACK</div>
+      <div class="dream-val">
+        FL Studio &nbsp;·&nbsp; Serum &nbsp;·&nbsp; Vital &nbsp;·&nbsp; Ozone<br>
+        Real instruments &nbsp;·&nbsp; Zero AI generation<br>
+        Canon &nbsp;·&nbsp; Lightroom &nbsp;·&nbsp; Street &amp; live performance photography
+      </div>
+    </div>
+
+    <div class="dream-section">
+      <div class="dream-key">✦ &nbsp; FIND ME</div>
+      <div class="dream-links">
+        <a class="dlink" href="https://soundcloud.com/davee264" target="_blank">
+          <svg width="26" height="26" viewBox="0 0 24 24"><rect width="24" height="24" rx="12" fill="#a855f7" fill-opacity="0.15"/><path d="M9.5 9a4 4 0 0 1 7.2 2.4 2.3 2.3 0 1 1-.2 4.3H9V12a4 4 0 0 1 .5-3z" fill="#c084fc"/><path d="M3.8 13.5a1.5 1.5 0 1 0 3 .1V11.8a3 3 0 0 0-3 1.7z" fill="#c084fc"/><rect x="7.5" y="11" width="1.5" height="4.7" rx="0.7" fill="#c084fc"/></svg>
+          <div class="link-label"><span class="link-name-r">SOUNDCLOUD</span><span class="link-url-r">soundcloud.com/davee264</span></div>
+        </a>
+        <a class="dlink" href="https://instagram.com/anotherdavephoto" target="_blank">
+          <svg width="26" height="26" viewBox="0 0 24 24"><rect width="24" height="24" rx="7" fill="#a855f7" fill-opacity="0.15"/><rect x="4.5" y="4.5" width="15" height="15" rx="4.5" stroke="#c084fc" stroke-width="1.4" fill="none"/><circle cx="12" cy="12" r="3.5" stroke="#c084fc" stroke-width="1.4" fill="none"/><circle cx="16.8" cy="7.2" r="1.1" fill="#c084fc"/></svg>
+          <div class="link-label"><span class="link-name-r">INSTAGRAM</span><span class="link-url-r">@anotherdavephoto</span></div>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="hint">HOVER TO EXPAND &nbsp;·&nbsp; CLICK TO FULLSCREEN</div>
+
+<script>
+  const body  = document.body;
+  const land  = document.getElementById('landing');
+  const left  = document.getElementById('leftSide');
+  const right = document.getElementById('rightSide');
+  const back  = document.getElementById('backBtn');
+  let fullMode = null;
+
+  // ── Landing choices ──
+  document.getElementById('chooseLeft').addEventListener('click', () => {
+    land.classList.add('hidden');
+    setFull('left');
+  });
+  document.getElementById('chooseRight').addEventListener('click', () => {
+    land.classList.add('hidden');
+    setFull('right');
+  });
+
+  // ── Fullscreen toggle ──
+  function setFull(side) {
+    fullMode = side;
+    body.className = side === 'left' ? 'full-left' : 'full-right';
+  }
+  function clearFull() {
+    fullMode = null;
+    body.className = '';
+  }
+
+  left.addEventListener('click', (e) => {
+    if (fullMode === 'left') return;
+    e.stopPropagation();
+    setFull('left');
+  });
+  right.addEventListener('click', (e) => {
+    if (fullMode === 'right') return;
+    e.stopPropagation();
+    setFull('right');
+  });
+  back.addEventListener('click', (e) => {
+    e.stopPropagation();
+    clearFull();
+  });
+
+  // ── Hover (only when not fullscreen) ──
+  left.addEventListener('mouseenter',  () => { if (!fullMode) body.className = 'hover-left'; });
+  right.addEventListener('mouseenter', () => { if (!fullMode) body.className = 'hover-right'; });
+  body.addEventListener('mouseleave',  () => { if (!fullMode) body.className = ''; });
+
+  // ── Particles ──
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 36; i++) {
+    const p = document.createElement('div');
+    p.className = 'p';
+    const size = Math.random() * 3 + 1;
+    p.style.cssText = [
+      `width:${size}px`, `height:${size}px`,
+      `top:${(Math.random()*100).toFixed(1)}%`,
+      `left:${(Math.random()*100).toFixed(1)}%`,
+      `--o:${(Math.random()*0.22+0.05).toFixed(2)}`,
+      `--t:${(Math.random()*9+5).toFixed(1)}s`,
+      `--dy:${-(Math.random()*35+10).toFixed(0)}px`,
+      `--dx:${((Math.random()-0.5)*22).toFixed(1)}px`,
+      `animation-delay:${(Math.random()*7).toFixed(1)}s`
+    ].join(';');
+    container.appendChild(p);
+  }
+</script>
+</body>
+</html>
