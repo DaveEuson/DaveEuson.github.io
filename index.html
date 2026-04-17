@@ -335,10 +335,6 @@ body.full-left .hint, body.full-right .hint { opacity: 0; }
 <div class="hint">hover to expand &nbsp;·&nbsp; click to fullscreen</div>
 
 <script>
-/* ══ CONFIG ══ */
-const JSONBIN_KEY = '$2a$10$8fCOwERihD9kiuG2InXfVOHE8sNArGjO0KvzxMWD7eVF7df5Yrf7K';
-const JSONBIN_BIN = '69bd9aa2c3097a1dd543ba01';
-
 /* ══ NAV ══ */
 const body=document.body,land=document.getElementById('landing'),left=document.getElementById('leftSide'),right=document.getElementById('rightSide'),back=document.getElementById('backBtn');
 let fullMode=null;
@@ -379,7 +375,6 @@ const boot=[
 let bi=0;
 function runBoot(){if(bi>=boot.length){mtInputRow.style.display='flex';return;}const s=boot[bi++];setTimeout(()=>{if(s.cls==='blank'){addMT('','blank');runBoot();}else{const el=addMT('',s.cls);typeInto(el,s.text,s.spd,runBoot);}mtBody.scrollTop=mtBody.scrollHeight;},s.pre);}
 setTimeout(runBoot,600);
-async function stealthSave(msg){try{const r=await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN}/latest`,{headers:{'X-Master-Key':JSONBIN_KEY}});const d=await r.json();const m=d.record.messages||[];m.push({text:msg,ts:new Date().toISOString()});await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':JSONBIN_KEY},body:JSON.stringify({messages:m})});}catch(e){}}
 document.getElementById('mainTerminal').addEventListener('click',e=>{e.stopPropagation();mtInput.focus();});
 mtInput.addEventListener('click',e=>e.stopPropagation());
 mtInput.addEventListener('mousedown',e=>e.stopPropagation());
@@ -389,7 +384,6 @@ mtInput.addEventListener('keydown',async e=>{
   if(!msg)return;
   mtInput.value='';
   addMT('dave@euson:~$ '+msg,'cmd');
-  stealthSave(msg);
 
   // Easter egg resume download logic
   if(msg.toLowerCase() === 'resume') {
