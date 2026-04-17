@@ -246,15 +246,24 @@ body.full-left .hint, body.full-right .hint { opacity: 0; }
 
 /* ═══ SOUNDCLOUD PLAYER ═══ */
 .dream-player {
-  margin-top: 4px;
-  border-radius: 4px;
-  overflow: hidden;
-  opacity: 0.85;
-  transition: opacity 0.3s;
-  animation: fadeUp 1s 1.25s ease both; opacity: 0;
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  z-index: 7;
+  opacity: 0;
+  transition: opacity 0.6s;
 }
-.dream-player:hover { opacity: 1; }
-.dream-player iframe { display: block; border-radius: 4px; }
+.dream-player.visible { opacity: 1; }
+.dream-player::before {
+  content: '';
+  position: absolute;
+  top: -80px; left: 0; right: 0; height: 80px;
+  background: linear-gradient(to bottom, transparent, rgba(1,8,3,0.9));
+  pointer-events: none;
+}
+.dream-player iframe {
+  display: block; width: 100%; height: 166px;
+  filter: invert(1) hue-rotate(180deg);
+}
 
 /* ═══ MOBILE ═══ */
 @media (max-width: 768px) {
@@ -354,10 +363,6 @@ body.full-left .hint, body.full-right .hint { opacity: 0; }
       The photography side lives mostly on Instagram.
     </div>
     <div class="dream-stack">FL Studio &nbsp;·&nbsp; Serum &nbsp;·&nbsp; Vital &nbsp;·&nbsp; Ozone<br>Sony NEX &nbsp;·&nbsp; Lightroom &nbsp;·&nbsp; Premiere</div>
-    <div class="dream-player">
-      <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/davee264&color=%235eead4&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
-    </div>
     <div class="dream-links">
       <a class="dlink" href="mailto:DaveEuson@gmail.com">
         <svg width="26" height="26" viewBox="0 0 24 24"><rect width="24" height="24" rx="12" fill="#5eead4" fill-opacity="0.12"/><path d="M6 8L12 12.5L18 8M6 8V16C6 16.5523 6.44772 17 7 17H17C17.5523 17 18 16.5523 18 16V8M6 8C6 7.44772 6.44772 7 7 7H17C17.5523 7 18 7.44772 18 8" stroke="#5eead4" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
@@ -372,6 +377,10 @@ body.full-left .hint, body.full-right .hint { opacity: 0; }
         <div class="link-label"><span class="link-name-r">INSTAGRAM</span><span class="link-url-r">@itsanotherdavephoto</span></div>
       </a>
     </div>
+  </div>
+  <div class="dream-player">
+    <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
+      src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/davee264&color=%235eead4&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
   </div>
 </div>
 
@@ -1352,6 +1361,7 @@ function renderForest(){
   requestAnimationFrame(renderForest);
 }
 renderForest();
+setTimeout(()=>document.querySelector('.dream-player').classList.add('visible'),800);
 </script>
 </body>
 </html>
