@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dave Euson</title>
+<meta name="description" content="Senior Solutions Architect & Broadcast Video Engineer. Also a musician, photographer, and editor.">
+<meta property="og:title" content="Dave Euson">
+<meta property="og:description" content="Senior Solutions Architect & Broadcast Video Engineer. Also a musician, photographer, and editor.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Dave Euson">
+<meta name="twitter:description" content="Senior Solutions Architect & Broadcast Video Engineer. Also a musician, photographer, and editor.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Playfair+Display:wght@700&family=Montserrat:wght@100;200;300;400&family=Karla:wght@300;400&display=swap" rel="stylesheet">
 <style>
@@ -236,6 +243,38 @@ body.full-left .back-btn, body.full-right .back-btn { display: block; }
 
 .hint { position: fixed; bottom: 18px; width: 100%; left: 0; text-align: center; z-index: 200; pointer-events: none; font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 0.2em; color: rgba(255,255,255,0.07); transition: opacity 0.4s; }
 body.full-left .hint, body.full-right .hint { opacity: 0; }
+
+/* ═══ SOUNDCLOUD PLAYER ═══ */
+.dream-player {
+  margin-top: 4px;
+  border-radius: 4px;
+  overflow: hidden;
+  opacity: 0.85;
+  transition: opacity 0.3s;
+  animation: fadeUp 1s 1.25s ease both; opacity: 0;
+}
+.dream-player:hover { opacity: 1; }
+.dream-player iframe { display: block; border-radius: 4px; }
+
+/* ═══ MOBILE ═══ */
+@media (max-width: 768px) {
+  body { flex-direction: column; }
+  .side { width: 100% !important; height: 50vh; transition: height 0.6s cubic-bezier(0.77,0,0.175,1); }
+  body.full-left .left { height: 100vh; cursor: default; }
+  body.full-left .right { height: 0; }
+  body.full-right .right { height: 100vh; cursor: default; }
+  body.full-right .left { height: 0; }
+  .divider { display: none; }
+  .hint { display: none; }
+  .left-inner { padding: 28px 20px 32px; gap: 14px; }
+  .right-inner { padding: 32px 20px 80px; gap: 14px; }
+  .term-name { font-size: 36px; }
+  .term-val { font-size: 12px; }
+  .mt-body { max-height: 180px; }
+  .dream-name { font-size: clamp(32px, 9vw, 52px) !important; }
+  .dream-bio { font-size: 14px; }
+  .dream-player iframe { height: 120px; }
+}
 </style>
 </head>
 <body>
@@ -280,15 +319,15 @@ body.full-left .hint, body.full-right .hint { opacity: 0; }
           <svg width="26" height="26" viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="#39d353" fill-opacity="0.12"/><path d="M20 4H4C2.9 4 2.01 4.9 2.01 6L2 18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4ZM20 8L12 13L4 8V6L12 11L20 6V8Z" fill="#39d353"/></svg>
           <div class="link-label"><span class="link-name-l">EMAIL</span><span class="link-url-l">DaveEuson@gmail.com</span></div>
         </a>
-        <a class="tlink" href="https://linkedin.com/in/daveeusonpost" target="_blank">
+        <a class="tlink" href="https://linkedin.com/in/daveeusonpost" target="_blank" rel="noopener noreferrer">
           <svg width="26" height="26" viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="#39d353" fill-opacity="0.12"/><path d="M7 9h2v8H7V9zm1-3a1.1 1.1 0 1 1 0 2.2A1.1 1.1 0 0 1 8 6zm4 3h2v1.1C14.4 9.4 15 9 16 9c2 0 3 1.3 3 3.3V17h-2v-4.5c0-1-.4-1.5-1.2-1.5S14 11.6 14 12.7V17h-2V9z" fill="#39d353"/></svg>
           <div class="link-label"><span class="link-name-l">LINKEDIN</span><span class="link-url-l">linkedin.com/in/daveeusonpost</span></div>
         </a>
-        <a class="tlink" href="https://github.com/DaveEuson" target="_blank">
+        <a class="tlink" href="https://github.com/DaveEuson" target="_blank" rel="noopener noreferrer">
           <svg width="26" height="26" viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="#39d353" fill-opacity="0.12"/><path fill-rule="evenodd" clip-rule="evenodd" d="M12 4a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38v-1.34c-2.23.49-2.7-1.07-2.7-1.07-.36-.93-.89-1.17-.89-1.17-.73-.5.05-.49.05-.49.8.06 1.23.83 1.23.83.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.65 7.65 0 0 1 12 9.3c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.19c0 .21.15.46.55.38A8 8 0 0 0 12 4z" fill="#39d353"/></svg>
           <div class="link-label"><span class="link-name-l">GITHUB</span><span class="link-url-l">github.com/DaveEuson</span></div>
         </a>
-        <a class="tlink" href="Dave%20Euson%20Resume%20040626.pdf" target="_blank">
+        <a class="tlink" href="Dave%20Euson%20Resume%20040626.pdf" target="_blank" rel="noopener noreferrer">
           <svg width="26" height="26" viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="#39d353" fill-opacity="0.12"/><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" fill="#39d353"/></svg>
           <div class="link-label"><span class="link-name-l">RESUME</span><span class="link-url-l">Download PDF</span></div>
         </a>
@@ -315,16 +354,20 @@ body.full-left .hint, body.full-right .hint { opacity: 0; }
       The photography side lives mostly on Instagram.
     </div>
     <div class="dream-stack">FL Studio &nbsp;·&nbsp; Serum &nbsp;·&nbsp; Vital &nbsp;·&nbsp; Ozone<br>Sony NEX &nbsp;·&nbsp; Lightroom &nbsp;·&nbsp; Premiere</div>
+    <div class="dream-player">
+      <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
+        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/davee264&color=%235eead4&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+    </div>
     <div class="dream-links">
       <a class="dlink" href="mailto:DaveEuson@gmail.com">
         <svg width="26" height="26" viewBox="0 0 24 24"><rect width="24" height="24" rx="12" fill="#5eead4" fill-opacity="0.12"/><path d="M6 8L12 12.5L18 8M6 8V16C6 16.5523 6.44772 17 7 17H17C17.5523 17 18 16.5523 18 16V8M6 8C6 7.44772 6.44772 7 7 7H17C17.5523 7 18 7.44772 18 8" stroke="#5eead4" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
         <div class="link-label"><span class="link-name-r">EMAIL</span><span class="link-url-r">DaveEuson@gmail.com</span></div>
       </a>
-      <a class="dlink" href="https://soundcloud.com/davee264" target="_blank">
+      <a class="dlink" href="https://soundcloud.com/davee264" target="_blank" rel="noopener noreferrer">
         <svg width="26" height="26" viewBox="0 0 24 24"><rect width="24" height="24" rx="12" fill="#5eead4" fill-opacity="0.12"/><path d="M9.5 9a4 4 0 0 1 7.2 2.4 2.3 2.3 0 1 1-.2 4.3H9V12a4 4 0 0 1 .5-3z" fill="#5eead4"/><path d="M3.8 13.5a1.5 1.5 0 1 0 3 .1V11.8a3 3 0 0 0-3 1.7z" fill="#5eead4"/><rect x="7.5" y="11" width="1.5" height="4.7" rx="0.7" fill="#5eead4"/></svg>
         <div class="link-label"><span class="link-name-r">SOUNDCLOUD</span><span class="link-url-r">soundcloud.com/davee264</span></div>
       </a>
-      <a class="dlink" href="https://instagram.com/itsanotherdavephoto" target="_blank">
+      <a class="dlink" href="https://instagram.com/itsanotherdavephoto" target="_blank" rel="noopener noreferrer">
         <svg width="26" height="26" viewBox="0 0 24 24"><rect width="24" height="24" rx="7" fill="#5eead4" fill-opacity="0.12"/><rect x="4.5" y="4.5" width="15" height="15" rx="4.5" stroke="#5eead4" stroke-width="1.4" fill="none"/><circle cx="12" cy="12" r="3.5" stroke="#5eead4" stroke-width="1.4" fill="none"/><circle cx="16.8" cy="7.2" r="1.1" fill="#5eead4"/></svg>
         <div class="link-label"><span class="link-name-r">INSTAGRAM</span><span class="link-url-r">@itsanotherdavephoto</span></div>
       </a>
@@ -345,6 +388,7 @@ function clearFull(){fullMode=null;body.className='';}
 left.addEventListener('click',e=>{if(fullMode==='left')return;e.stopPropagation();setFull('left');});
 // right-click handled in forest script
 back.addEventListener('click',e=>{e.stopPropagation();clearFull();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&fullMode)clearFull();});
 left.addEventListener('mouseenter',()=>{if(!fullMode)body.className='hover-left';});
 right.addEventListener('mouseenter',()=>{if(!fullMode)body.className='hover-right';});
 body.addEventListener('mouseleave',()=>{if(!fullMode)body.className='';});
@@ -378,7 +422,7 @@ setTimeout(runBoot,600);
 document.getElementById('mainTerminal').addEventListener('click',e=>{e.stopPropagation();mtInput.focus();});
 mtInput.addEventListener('click',e=>e.stopPropagation());
 mtInput.addEventListener('mousedown',e=>e.stopPropagation());
-mtInput.addEventListener('keydown',async e=>{
+mtInput.addEventListener('keydown',e=>{
   if(e.key!=='Enter')return;
   const msg=mtInput.value.trim();
   if(!msg)return;
@@ -407,15 +451,23 @@ const sc=document.getElementById('stars'),sctx=sc.getContext('2d');
 let shootingStar=null;
 const sparks=[];
 
+// Generate once so stars don't reshuffle on every resize/hover
+const starData=Array.from({length:170},()=>({
+  xn:Math.random(),yn:Math.random()*0.6,
+  r:Math.random()*1.3+0.2,
+  a:(Math.random()*0.55+0.15).toFixed(2)
+}));
+
 function resizeStars(){
   sc.width=right.offsetWidth||window.innerWidth/2;
   sc.height=window.innerHeight;
   drawStaticStars();
 }
 function drawStaticStars(){
-  sctx.clearRect(0,0,sc.width,sc.height);
+  const W=sc.width,H=sc.height;
+  sctx.clearRect(0,0,W,H);
   // Moon
-  const mx=sc.width*0.72,my=sc.height*0.11,mr=26;
+  const mx=W*0.72,my=H*0.11,mr=26;
   const mg=sctx.createRadialGradient(mx,my,mr*0.5,mx,my,mr*3.5);
   mg.addColorStop(0,'rgba(255,240,180,0.22)');mg.addColorStop(1,'rgba(255,240,180,0)');
   sctx.beginPath();sctx.arc(mx,my,mr*3.5,0,Math.PI*2);sctx.fillStyle=mg;sctx.fill();
@@ -423,13 +475,11 @@ function drawStaticStars(){
   [[mx-7,my-4,3.5],[mx+5,my+6,2.5],[mx-1,my+9,1.8]].forEach(([cx,cy,cr])=>{
     sctx.beginPath();sctx.arc(cx,cy,cr,0,Math.PI*2);sctx.fillStyle='rgba(170,148,72,0.32)';sctx.fill();
   });
-  // Stars
-  for(let i=0;i<170;i++){
-    const x=Math.random()*sc.width,y=Math.random()*sc.height*0.6;
-    const r=Math.random()*1.3+0.2;
-    sctx.beginPath();sctx.arc(x,y,r,0,Math.PI*2);
-    sctx.fillStyle=`rgba(255,255,255,${(Math.random()*0.55+0.15).toFixed(2)})`;sctx.fill();
-  }
+  // Stars — fixed positions, scaled to canvas size
+  starData.forEach(s=>{
+    sctx.beginPath();sctx.arc(s.xn*W,s.yn*H,s.r,0,Math.PI*2);
+    sctx.fillStyle=`rgba(255,255,255,${s.a})`;sctx.fill();
+  });
 }
 resizeStars();
 
@@ -484,7 +534,7 @@ window.addEventListener('mousemove',e=>{
 right.addEventListener('mouseleave',()=>{cursorX=null;cursorY=null;});
 
 /* ══ JAR ══ */
-const JAR_W=17,JAR_H=46,JAR_CAP_RADIUS=44;
+const JAR_W=17,JAR_H=46,JAR_CAP_RADIUS=22;
 let jarWobble=0;
 let jarClickCount=0;
 let jarSpilling=false;
@@ -965,11 +1015,6 @@ class Deer{
     this.pauseTimer=0;this.pausing=false;
     this.jumpV=0;this.scared=false;
   }
-  click(){
-    if(!this.active)return false;
-    // Check if click near deer
-    return true;
-  }
   scare(){
     if(!this.active)return;
     this.jumpV=-8;this.scared=true;
@@ -1266,20 +1311,20 @@ function renderForest(){
     f.y=Math.max(0.01,Math.min(f.y,0.84)); // hard clamp, jar is at ~0.84
     const fpx=f.x*FW,fpy=f.y*FH;
     f.trail.push([fpx,fpy]);if(f.trail.length>f.trailLen)f.trail.shift();
-    const blink=Math.max(0,Math.sin(f.blinkPhase)),bright=blink*blink;
-    if(bright<0.06)return;
+    // dim to 25% at minimum instead of fully invisible
+    const blink=0.25+0.75*Math.max(0,Math.sin(f.blinkPhase)),bright=blink*blink;
     if(f.trail.length>2){
       for(let i=1;i<f.trail.length;i++){
         fctx.beginPath();fctx.moveTo(f.trail[i-1][0],f.trail[i-1][1]);fctx.lineTo(f.trail[i][0],f.trail[i][1]);
-        fctx.strokeStyle=f.color;fctx.globalAlpha=(i/f.trail.length)*f.opacity*0.22*bright;
-        fctx.lineWidth=f.r*0.3;fctx.stroke();
+        fctx.strokeStyle=f.color;fctx.globalAlpha=(i/f.trail.length)*f.opacity*0.45*bright;
+        fctx.lineWidth=f.r*0.4;fctx.stroke();
       }
     }
-    const gw=fctx.createRadialGradient(fpx,fpy,0,fpx,fpy,f.r*12);
-    gw.addColorStop(0,f.color+'99');gw.addColorStop(0.4,f.color+'28');gw.addColorStop(1,f.color+'00');
-    fctx.beginPath();fctx.arc(fpx,fpy,f.r*12,0,Math.PI*2);
-    fctx.fillStyle=gw;fctx.globalAlpha=f.opacity*bright*0.55;fctx.fill();
-    fctx.beginPath();fctx.arc(fpx,fpy,f.r*(0.8+bright*0.4),0,Math.PI*2);
+    const gw=fctx.createRadialGradient(fpx,fpy,0,fpx,fpy,f.r*7);
+    gw.addColorStop(0,f.color+'bb');gw.addColorStop(0.5,f.color+'33');gw.addColorStop(1,f.color+'00');
+    fctx.beginPath();fctx.arc(fpx,fpy,f.r*7,0,Math.PI*2);
+    fctx.fillStyle=gw;fctx.globalAlpha=f.opacity*bright*0.7;fctx.fill();
+    fctx.beginPath();fctx.arc(fpx,fpy,f.r*(1+bright*0.5),0,Math.PI*2);
     fctx.fillStyle='#fffde7';fctx.globalAlpha=f.opacity*bright;fctx.fill();
     fctx.globalAlpha=1;
   });
