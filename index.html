@@ -256,7 +256,7 @@ body.full-left .hint, body.full-right .hint { opacity: 0; }
 .dream-player::before {
   content: '';
   position: absolute;
-  top: -80px; left: 0; right: 0; height: 80px;
+  top: -50px; left: 0; right: 0; height: 50px;
   background: linear-gradient(to bottom, transparent, rgba(1,8,3,0.9));
   pointer-events: none;
 }
@@ -1016,7 +1016,7 @@ class Deer{
   spawn(){
     this.dir=Math.random()<0.5?1:-1;
     this.x=this.dir===1?-120:FW+120;
-    this.baseY=FH*(0.80+Math.random()*0.04);
+    this.baseY=FH*(0.70+Math.random()*0.02);
     this.y=this.baseY;
     this.speed=0.4+Math.random()*0.18;
     this.scale=0.7+Math.random()*0.25;
@@ -1080,7 +1080,7 @@ class Fox{
   spawn(){
     this.dir=Math.random()<0.5?1:-1;
     this.x=this.dir===1?-80:FW+80;
-    this.baseY=FH*(0.83+Math.random()*0.03);
+    this.baseY=FH*(0.72+Math.random()*0.02);
     this.y=this.baseY;
     this.speed=0.55+Math.random()*0.35;
     this.scale=0.45+Math.random()*0.15;
@@ -1276,7 +1276,7 @@ function renderForest(){
     drawStaticStars();
   }
   fctx.clearRect(0,0,FW,FH);
-  const GY=FH*0.86;
+  const GY=FH*0.74;
   const trees=treeDefs.map(t=>({...t,h:FH*t.hf}));
   trees.filter((_,i)=>i>=8).forEach(t=>drawSequoia(t.xf*FW,GY,t.h,t.tw,t.op));
   trees.filter((_,i)=>i<8).forEach(t=>drawSequoia(t.xf*FW,GY,t.h,t.tw,t.op));
@@ -1316,8 +1316,8 @@ function renderForest(){
     // Soft vertical boundaries — gentle pushback, no teleport
     // Soft vertical walls — sky at top, ground at bottom
     if(f.y<0.02)f.vy+=0.00028;        // bounce off sky
-    if(f.y>0.82)f.vy-=0.00055;        // soft repel near ground
-    f.y=Math.max(0.01,Math.min(f.y,0.84)); // hard clamp, jar is at ~0.84
+    if(f.y>0.70)f.vy-=0.00055;        // soft repel near ground
+    f.y=Math.max(0.01,Math.min(f.y,0.72)); // hard clamp, jar is at ~0.72
     const fpx=f.x*FW,fpy=f.y*FH;
     f.trail.push([fpx,fpy]);if(f.trail.length>f.trailLen)f.trail.shift();
     // dim to 25% at minimum instead of fully invisible
