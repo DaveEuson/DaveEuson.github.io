@@ -1,0 +1,234 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-06T00:00:00Z",
+  "title": "Design System: Dave Euson",
+  "extensions": {
+    "colorMeta": {
+      "blue-hour": {
+        "role": "neutral",
+        "displayName": "Blue Hour",
+        "canonical": "#161826",
+        "tonalRamp": ["#0b0c14", "#161826", "#22253a", "#2f334f", "#3d4266", "#4c527e", "#5c6397", "#6d75b0"]
+      },
+      "moonlight": {
+        "role": "neutral",
+        "displayName": "Moonlight",
+        "canonical": "#e9e9ed",
+        "tonalRamp": ["#292b31", "#3f424d", "#595d6c", "#75798c", "#9397ab", "#b2b6ca", "#cfd3e5", "#f3f5fe"]
+      },
+      "dusk-periwinkle": {
+        "role": "primary",
+        "displayName": "Dusk Periwinkle",
+        "canonical": "#9184d9",
+        "tonalRamp": ["#2b2741", "#423a6a", "#5d5294", "#796cbf", "#968ae0", "#b5abfc", "#d2cefd", "#f5f4ff"]
+      },
+      "dusk-periwinkle-100": {
+        "role": "primary",
+        "displayName": "Dusk Periwinkle 100",
+        "canonical": "#f5f4ff"
+      },
+      "dusk-periwinkle-300": {
+        "role": "primary",
+        "displayName": "Dusk Periwinkle 300",
+        "canonical": "#d2cefd"
+      },
+      "dusk-periwinkle-400": {
+        "role": "primary",
+        "displayName": "Dusk Periwinkle 400",
+        "canonical": "#b5abfc"
+      },
+      "divider": {
+        "role": "neutral",
+        "displayName": "Divider Hairline",
+        "canonical": "color-mix(in srgb, #e9e9ed 16%, transparent)"
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "The name, once, at the top of the page. Negative tracking keeps it from reading as a document heading." },
+      "greeting": { "displayName": "Greeting", "purpose": "The salutation opening the left column, and the only body element that takes the display treatment. Sits deliberately between Display and Title — three clear steps at every width (60/36/27 desktop, 36/26/20 mobile) — so it can never be mistaken for a second heading or for prose." },
+      "title": { "displayName": "Title", "purpose": "The bio paragraph. The largest body copy on the page; set at regular weight so it holds up over photography." },
+      "body": { "displayName": "Body", "purpose": "Detail panel copy. Generous 1.65 leading because a panel is read in one glance, not scanned." },
+      "interface": { "displayName": "Interface", "purpose": "Buttons only." },
+      "label": { "displayName": "Label", "purpose": "Uppercase kickers at 0.14em tracking. Also used at 12px for the masthead eyebrow." },
+      "meta": { "displayName": "Meta", "purpose": "Panel destination lines at 13px; eyebrow and photo caption at 12px." }
+    },
+    "alphaLadder": {
+      "purpose": "This system has no neutral text ramp. All text hierarchy is Moonlight (#e9e9ed) at seven documented alphas. Reach for an existing step before inventing an eighth.",
+      "steps": [
+        { "alpha": "94%", "use": "Bio paragraph" },
+        { "alpha": "82%", "use": "Detail panel body" },
+        { "alpha": "62%", "use": "Idle panel body" },
+        { "alpha": "48%", "use": "Masthead eyebrow" },
+        { "alpha": "45%", "use": "Panel destination line" },
+        { "alpha": "40%", "use": "Idle panel kicker" },
+        { "alpha": "38%", "use": "Photo strip caption" }
+      ]
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "backdrop-crossfade", "value": "850ms cubic-bezier(.4, 0, .2, 1)", "purpose": "The full-bleed photograph changing. Long enough to read as weather rather than as feedback." },
+      { "name": "panel-crossfade", "value": "340ms ease", "purpose": "Detail panel swap in the right column." },
+      { "name": "thumbnail-reveal", "value": "260ms ease", "purpose": "Photo strip thumbnail from 45% to full opacity." },
+      { "name": "inline-tint", "value": "200ms ease", "purpose": "Thread link color and background tint. The fastest tier because it is nearest the viewer." },
+      { "name": "reduced-motion", "value": "1ms", "purpose": "Under prefers-reduced-motion: reduce, all four tiers collapse. The state change still happens, it just arrives instantly." }
+    ],
+    "breakpoints": [
+      { "name": "stack", "value": "~860px", "purpose": "Implicit. The body grid's auto-fit floor collapses two columns to one with no media query." },
+      { "name": "compact", "value": "760px", "purpose": "The only authored media query. Bio drops to 20px, the detail column loses its left border and min-height, and panels switch from absolute crossfade to one-at-a-time flow." }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "An accent outline, never a filled accent block. Used once on the page, for the résumé.",
+      "html": "<a class=\"ds-btn ds-btn-primary\" href=\"#\">Résumé</a>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; cursor: pointer; font-family: Inter, system-ui, sans-serif; font-weight: 500; font-size: 14px; line-height: 1.2; background: transparent; border: 1px solid transparent; padding: 5.6px 10.08px; border-radius: var(--radius-md, 8px); } .ds-btn-primary { color: var(--color-accent, #9184d9); border-color: var(--color-accent, #9184d9); } .ds-btn-primary:hover { background: color-mix(in srgb, var(--color-accent, #9184d9) 12%, transparent); } .ds-btn-primary:active { background: color-mix(in srgb, var(--color-accent, #9184d9) 22%, transparent); } .ds-btn-primary:focus-visible { outline: 2px solid var(--color-accent, #9184d9); outline-offset: 2px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "The default control. Moonlight text inside a divider-alpha hairline; the fill arrives only on hover.",
+      "html": "<a class=\"ds-btn ds-btn-secondary\" href=\"#\">LinkedIn</a>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; cursor: pointer; font-family: Inter, system-ui, sans-serif; font-weight: 500; font-size: 14px; line-height: 1.2; background: transparent; border: 1px solid transparent; padding: 5.6px 10.08px; border-radius: var(--radius-md, 8px); } .ds-btn-secondary { color: var(--color-text, #e9e9ed); border-color: color-mix(in srgb, var(--color-text, #e9e9ed) 16%, transparent); } .ds-btn-secondary:hover { background: color-mix(in srgb, var(--color-text, #e9e9ed) 7%, transparent); } .ds-btn-secondary:active { background: color-mix(in srgb, var(--color-text, #e9e9ed) 14%, transparent); } .ds-btn-secondary:focus-visible { outline: 2px solid var(--color-accent, #9184d9); outline-offset: 2px; }"
+    },
+    {
+      "name": "Thread Link",
+      "kind": "custom",
+      "refersTo": "link-thread",
+      "description": "The system's signature component: a phrase inside running prose that is simultaneously a link, a backdrop trigger, and a panel trigger. The hover tint is a highlighter mark, not a button fill — it hugs the text box and inherits line breaks.",
+      "html": "<p class=\"ds-prose\">Right now I build <a class=\"ds-thread\" href=\"#\">AI and GPU-accelerated pipelines</a> for companies that move enormous amounts of video.</p>",
+      "css": ".ds-prose { margin: 0; font-family: Inter, system-ui, sans-serif; font-size: 24px; font-weight: 400; line-height: 1.58; color: color-mix(in srgb, var(--color-text, #e9e9ed) 94%, transparent); text-wrap: pretty; } .ds-thread { color: var(--color-accent-300, #d2cefd); text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--color-accent, #9184d9) 50%, transparent); transition: color 200ms ease, background-color 200ms ease; } .ds-thread:hover { color: var(--color-accent-100, #f5f4ff); background-color: color-mix(in srgb, var(--color-accent, #9184d9) 22%, transparent); } .ds-thread:focus-visible { outline: 2px solid var(--color-accent, #9184d9); outline-offset: 2px; }"
+    },
+    {
+      "name": "Detail Panel",
+      "kind": "card",
+      "refersTo": "panel-kicker",
+      "description": "The most content-heavy element in the system, and it has no container at all — positioned text only. Numbered accent kicker, body at 82% alpha, destination line at 45%.",
+      "html": "<div class=\"ds-panel\"><p class=\"ds-panel-kicker\">01&nbsp;/&nbsp;AI and GPU pipelines</p><p class=\"ds-panel-body\">Agentic orchestration, Bedrock and Ollama, Twelve Labs and Reality Defender. Deepfake detection and automated metadata tagging.</p><p class=\"ds-panel-click\">Click → GitHub</p></div>",
+      "css": ".ds-panel { font-family: Inter, system-ui, sans-serif; max-width: 420px; border-left: 1px solid color-mix(in srgb, var(--color-text, #e9e9ed) 16%, transparent); padding-left: 32px; } .ds-panel-kicker { margin: 0 0 10px; font-size: 11px; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-accent-400, #b5abfc); } .ds-panel-body { margin: 0; font-size: 17px; line-height: 1.65; color: color-mix(in srgb, var(--color-text, #e9e9ed) 82%, transparent); } .ds-panel-click { margin: 14px 0 0; font-size: 13px; color: color-mix(in srgb, var(--color-text, #e9e9ed) 45%, transparent); }"
+    },
+    {
+      "name": "Detail Panel — Idle",
+      "kind": "card",
+      "description": "The resting state of the same box, held one step lower in emphasis: kicker drops from accent to Moonlight 40%, body from 82% to 62%.",
+      "html": "<div class=\"ds-panel-idle\"><p class=\"ds-panel-idle-kicker\">Five things worth knowing</p><p class=\"ds-panel-idle-body\">Hover any of the underlined phrases and the detail lands here.</p></div>",
+      "css": ".ds-panel-idle { font-family: Inter, system-ui, sans-serif; max-width: 420px; border-left: 1px solid color-mix(in srgb, var(--color-text, #e9e9ed) 16%, transparent); padding-left: 32px; } .ds-panel-idle-kicker { margin: 0 0 10px; font-size: 11px; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text, #e9e9ed) 62%, transparent); } .ds-panel-idle-body { margin: 0; font-size: 17px; line-height: 1.65; color: color-mix(in srgb, var(--color-text, #e9e9ed) 62%, transparent); }"
+    },
+    {
+      "name": "Photo Thumbnail",
+      "kind": "custom",
+      "refersTo": "photo-thumb",
+      "description": "108×68 at 4px radius. Rests at 45% opacity and reaches full opacity on hover over 260ms; rests at 70% on no-hover devices, where there is no hover to reveal it. A trigger, not decoration. (Gradient stands in for the photograph.)",
+      "html": "<div class=\"ds-strip\"><div class=\"ds-thumb ds-thumb-a\"></div><div class=\"ds-thumb ds-thumb-b\"></div><div class=\"ds-thumb ds-thumb-c\"></div></div>",
+      "css": ".ds-strip { display: flex; gap: 8px; flex-wrap: wrap; } .ds-thumb { width: 108px; height: 68px; border-radius: var(--radius-sm, 4px); opacity: 0.45; transition: opacity 260ms ease; cursor: pointer; } .ds-thumb:hover { opacity: 1; } .ds-thumb-a { background: linear-gradient(150deg, #3d4266, #b5abfc); } .ds-thumb-b { background: linear-gradient(150deg, #22253a, #6d75b0); } .ds-thumb-c { background: linear-gradient(150deg, #2b2741, #968ae0); } @media (hover: none) { .ds-thumb { opacity: 0.7; } }"
+    },
+    {
+      "name": "Photographic Substrate",
+      "kind": "custom",
+      "description": "The signature surface treatment. A photograph under both scrims — the 100° linear wash for legibility and the radial vignette for the corners. Never one without the other. (Gradient stands in for the photograph; in production the layer carries mix-blend-mode: lighten over the Blue Hour ground.)",
+      "html": "<div class=\"ds-substrate\"><div class=\"ds-substrate-photo\"></div><div class=\"ds-substrate-wash\"></div><div class=\"ds-substrate-vignette\"></div><div class=\"ds-substrate-content\"><p class=\"ds-substrate-eyebrow\">Solutions architect&nbsp;·&nbsp;Chula Vista, California</p><p class=\"ds-substrate-line\">Text never sits directly on a photograph.</p></div></div>",
+      "css": ".ds-substrate { position: relative; width: 100%; height: 220px; overflow: hidden; border-radius: var(--radius-md, 8px); background: var(--color-bg, #161826); font-family: Inter, system-ui, sans-serif; } .ds-substrate-photo { position: absolute; inset: 0; background: linear-gradient(115deg, #6d75b0, #b5abfc 40%, #f5f4ff 75%, #5c6397); } .ds-substrate-wash { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(100deg, rgba(22,24,38,0.96) 0%, rgba(22,24,38,0.90) 46%, rgba(22,24,38,0.72) 100%); } .ds-substrate-vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(130% 100% at 15% 35%, transparent 25%, rgba(22,24,38,0.6) 100%); } .ds-substrate-content { position: relative; padding: 28px 32px; } .ds-substrate-eyebrow { margin: 0 0 12px; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text, #e9e9ed) 48%, transparent); } .ds-substrate-line { margin: 0; font-size: 24px; line-height: 1.58; color: color-mix(in srgb, var(--color-text, #e9e9ed) 94%, transparent); }"
+    },
+    {
+      "name": "Link Row",
+      "kind": "nav",
+      "description": "The footer cluster, and the only place both button variants appear together. Four secondary buttons then one primary, wrapping at 8px gap. The single accent outline against four hairlines is what makes the primary read as primary — the ratio is the emphasis, not the weight of any one control. Never add a second primary to this row.",
+      "html": "<nav class=\"ds-linkrow\"><a class=\"ds-btn ds-btn-secondary\" href=\"#\">Email</a><a class=\"ds-btn ds-btn-secondary\" href=\"#\">LinkedIn</a><a class=\"ds-btn ds-btn-secondary\" href=\"#\">GitHub</a><a class=\"ds-btn ds-btn-secondary\" href=\"#\">SoundCloud</a><a class=\"ds-btn ds-btn-primary\" href=\"#\">Résumé</a></nav>",
+      "css": ".ds-linkrow { display: flex; flex-wrap: wrap; gap: 8px; } .ds-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; cursor: pointer; font-family: Inter, system-ui, sans-serif; font-weight: 500; font-size: 14px; line-height: 1.2; background: transparent; border: 1px solid transparent; padding: 5.6px 10.08px; border-radius: var(--radius-md, 8px); } .ds-btn-secondary { color: var(--color-text, #e9e9ed); border-color: color-mix(in srgb, var(--color-text, #e9e9ed) 16%, transparent); } .ds-btn-secondary:hover { background: color-mix(in srgb, var(--color-text, #e9e9ed) 7%, transparent); } .ds-btn-primary { color: var(--color-accent, #9184d9); border-color: var(--color-accent, #9184d9); } .ds-btn-primary:hover { background: color-mix(in srgb, var(--color-accent, #9184d9) 12%, transparent); } .ds-btn:focus-visible { outline: 2px solid var(--color-accent, #9184d9); outline-offset: 2px; }"
+    },
+    {
+      "name": "Photo Strip",
+      "kind": "custom",
+      "description": "Thumbnail row at 8px gap over a 12px caption at Moonlight 38%, in a 12px-gap column. Per the product record this strip is the photography surface permanently, so it is a first-class component rather than a footer ornament — it carries every image not reachable from the prose, and it is the page's only grid of repeated objects. (Gradients stand in for the photographs.)",
+      "html": "<div class=\"ds-photostrip\"><div class=\"ds-photostrip-row\"><div class=\"ds-thumb ds-thumb-a\"></div><div class=\"ds-thumb ds-thumb-b\"></div><div class=\"ds-thumb ds-thumb-c\"></div><div class=\"ds-thumb ds-thumb-a\"></div><div class=\"ds-thumb ds-thumb-b\"></div></div><p class=\"ds-photostrip-caption\">Photographs: mine, from wherever I happened to be standing.</p></div>",
+      "css": ".ds-photostrip { display: flex; flex-direction: column; gap: 12px; font-family: Inter, system-ui, sans-serif; } .ds-photostrip-row { display: flex; gap: 8px; flex-wrap: wrap; } .ds-thumb { width: 108px; height: 68px; border-radius: var(--radius-sm, 4px); opacity: 0.45; transition: opacity 260ms ease; cursor: pointer; } .ds-thumb:hover { opacity: 1; } .ds-thumb-a { background: linear-gradient(150deg, #3d4266, #b5abfc); } .ds-thumb-b { background: linear-gradient(150deg, #22253a, #6d75b0); } .ds-thumb-c { background: linear-gradient(150deg, #2b2741, #968ae0); } .ds-photostrip-caption { margin: 0; font-size: 12px; color: color-mix(in srgb, var(--color-text, #e9e9ed) 38%, transparent); } @media (hover: none) { .ds-thumb { opacity: 0.7; } }"
+    },
+    {
+      "name": "Bio Block",
+      "kind": "custom",
+      "description": "The left column: a stylized greeting, then the paragraph, in a flex column at 0.7em gap. The greeting is a salutation, not a heading and not prose, and it is the one place the system permits a display treatment on a body element — its stylization is a two-tone split rather than an ornament, with the pleasantry receding to Moonlight 52% so the eye lands on the name and not on 'Hi'. The paragraph opens with the central claim, because the product record puts the whole burden on a ten-second read by a stranger: the greeting may come first visually, but it must never be the first thing that makes an argument. Deliberately static — it does not respond, reflow, or rewrite when a thread activates, and that stillness is what the Observation Deck reading depends on.",
+      "html": "<div class=\"ds-bio\"><p class=\"ds-greeting\">Hi! I am <span class=\"ds-greeting-name\">Dave</span>.</p><p>I build <a class=\"ds-thread\" href=\"#\">AI and GPU-accelerated pipelines</a> for companies that move enormous amounts of video. Based in Chula Vista, CA. With a <a class=\"ds-thread\" href=\"#\">20-year background in broadcast</a>, I specialize in <a class=\"ds-thread\" href=\"#\">connecting the dots between complex media systems</a>.</p></div>",
+      "css": ".ds-bio { display: flex; flex-direction: column; gap: 0.7em; font-family: Inter, system-ui, sans-serif; font-size: 24px; font-weight: 400; line-height: 1.58; color: color-mix(in srgb, var(--color-text, #e9e9ed) 94%, transparent); text-wrap: pretty; max-width: 620px; } .ds-bio p { margin: 0; } .ds-greeting { font-size: 34px; font-weight: 500; letter-spacing: -0.02em; line-height: 1.2; color: color-mix(in srgb, var(--color-text, #e9e9ed) 52%, transparent); } .ds-greeting-name { color: var(--color-text, #e9e9ed); } .ds-thread { color: var(--color-accent-300, #d2cefd); text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--color-accent, #9184d9) 50%, transparent); transition: color 200ms ease, background-color 200ms ease; } .ds-thread:hover { color: var(--color-accent-100, #f5f4ff); background-color: color-mix(in srgb, var(--color-accent, #9184d9) 22%, transparent); }"
+    },
+    {
+      "name": "Fading Rule (inherited, unused)",
+      "kind": "custom",
+      "description": "INHERITED FROM NOCTURNE — not present on this page. A 1px divider that ramps from transparent to Divider over its first and last 48px. The most reusable of the inherited patterns: it is the same instinct as the two-scrim vignette, applied to a line. Freestanding rules fade; box outlines, in-control separators, and short accent marks stay solid.",
+      "html": "<hr class=\"ds-hr\">",
+      "css": ".ds-hr { height: 1px; border: 0; margin: 11.2px 0; background: linear-gradient(to right, transparent, color-mix(in srgb, var(--color-text, #e9e9ed) 16%, transparent) 48px, color-mix(in srgb, var(--color-text, #e9e9ed) 16%, transparent) calc(100% - 48px), transparent); }"
+    },
+    {
+      "name": "Text Input (inherited, unused)",
+      "kind": "input",
+      "description": "INHERITED FROM NOCTURNE — not present on this page, and provisional. A filled input is the first thing in the system with a background, which puts it in direct tension with the Drawn-Not-Built Rule; prefer an underline-only field if one will serve. It also needs --color-surface (#232532), the one inherited token this project does not declare. Verify contrast over a bright photographic frame before shipping.",
+      "html": "<div class=\"ds-field\"><label for=\"ds-field-1\">Email</label><input class=\"ds-input\" id=\"ds-field-1\" type=\"email\" placeholder=\"you@example.com\"></div>",
+      "css": ".ds-field { font-family: Inter, system-ui, sans-serif; max-width: 320px; } .ds-field > label { display: block; font-size: 12px; margin-bottom: 5px; color: color-mix(in srgb, var(--color-text, #e9e9ed) 70%, transparent); } .ds-input { width: 100%; min-height: 36px; padding: 6px 10px; font-family: inherit; font-size: 14px; color: var(--color-text, #e9e9ed); caret-color: var(--color-accent, #9184d9); background: var(--color-surface, #232532); border: 1px solid color-mix(in srgb, var(--color-text, #e9e9ed) 16%, transparent); border-radius: var(--radius-md, 8px); } .ds-input::placeholder { color: color-mix(in srgb, var(--color-text, #e9e9ed) 40%, transparent); } .ds-input:hover { border-color: color-mix(in srgb, var(--color-text, #e9e9ed) 45%, transparent); } .ds-input:focus-visible { border-color: var(--color-accent, #9184d9); outline: 2px solid var(--color-accent, #9184d9); outline-offset: 0; }"
+    },
+    {
+      "name": "Tag (inherited, unused)",
+      "kind": "chip",
+      "description": "INHERITED FROM NOCTURNE — not present on this page. The outline variant is the one consistent with the Drawn-Not-Built Rule; the filled accent variant is included for completeness but carries a background and should be the exception.",
+      "html": "<span class=\"ds-tag ds-tag-outline\">Pre-sales</span> <span class=\"ds-tag ds-tag-accent\">GPU</span>",
+      "css": ".ds-tag { display: inline-flex; align-items: center; font-family: Inter, system-ui, sans-serif; font-size: 11px; letter-spacing: 0.02em; padding: 3px 10px; border-radius: calc(var(--radius-md, 8px) * 0.75); } .ds-tag-outline { border: 1px solid var(--color-accent, #9184d9); color: var(--color-accent, #9184d9); } .ds-tag-accent { background: #423a6a; color: var(--color-accent-100, #f5f4ff); }"
+    },
+    {
+      "name": "Table (inherited, unused)",
+      "kind": "custom",
+      "description": "INHERITED FROM NOCTURNE — not present on this page. Row rules are painted as row-level background gradients rather than cell borders, so each hairline fades to transparent 48px from both ends of the row instead of stopping flat. The hover tint layers over the rule, which keeps painting beneath it.",
+      "html": "<table class=\"ds-table\"><thead><tr><th>Company</th><th>Role</th><th>Years</th></tr></thead><tbody><tr><td>qibb</td><td>Senior Solutions Architect</td><td>2025–</td></tr><tr><td>Telestream</td><td>Technical Account Manager</td><td>2023–2025</td></tr></tbody></table>",
+      "css": ".ds-table { width: 100%; border-collapse: collapse; font-family: Inter, system-ui, sans-serif; font-size: 14px; color: var(--color-text, #e9e9ed); } .ds-table th { text-align: left; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text, #e9e9ed) 60%, transparent); padding: 5.6px; border-bottom: 1px solid transparent; } .ds-table td { padding: 5.6px; border-bottom: 1px solid transparent; } .ds-table thead tr { background: linear-gradient(to right, transparent, color-mix(in srgb, var(--color-text, #e9e9ed) 16%, transparent) 48px, color-mix(in srgb, var(--color-text, #e9e9ed) 16%, transparent) calc(100% - 48px), transparent) no-repeat bottom / 100% 1px; } .ds-table tbody tr { background: linear-gradient(to right, transparent, color-mix(in srgb, var(--color-text, #e9e9ed) 8%, transparent) 48px, color-mix(in srgb, var(--color-text, #e9e9ed) 8%, transparent) calc(100% - 48px), transparent) no-repeat bottom / 100% 1px; } .ds-table tbody tr:hover { background: linear-gradient(color-mix(in srgb, var(--color-text, #e9e9ed) 4%, transparent), color-mix(in srgb, var(--color-text, #e9e9ed) 4%, transparent)) no-repeat 0 0 / 100% 100%, linear-gradient(to right, transparent, color-mix(in srgb, var(--color-text, #e9e9ed) 8%, transparent) 48px, color-mix(in srgb, var(--color-text, #e9e9ed) 8%, transparent) calc(100% - 48px), transparent) no-repeat bottom / 100% 1px; }"
+    },
+    {
+      "name": "Masthead",
+      "kind": "nav",
+      "description": "Display name and uppercase eyebrow on a shared baseline. The only place Display type appears, and the clearest demonstration of the One Face Rule's tracking logic — negative on Display, 0.14em on the uppercase eyebrow, from a single typeface.",
+      "html": "<header class=\"ds-masthead\"><h1 class=\"ds-masthead-name\">Dave Euson</h1><p class=\"ds-masthead-eyebrow\">Solutions architect&nbsp;·&nbsp;Chula Vista, California</p></header>",
+      "css": ".ds-masthead { display: flex; align-items: baseline; gap: 24px; flex-wrap: wrap; font-family: Inter, system-ui, sans-serif; } .ds-masthead-name { margin: 0; font-size: clamp(36px, 4.4vw, 60px); font-weight: 500; letter-spacing: -0.025em; line-height: 1.12; color: var(--color-text, #e9e9ed); } .ds-masthead-eyebrow { margin: 0; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text, #e9e9ed) 48%, transparent); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Observation Deck",
+    "overview": "One fixed vantage point, one wide view. The visitor does not travel through this system — they arrive, stand still, and the view changes in front of them. Every structural decision follows from that: the left column never moves, the page never scrolls to a second act, and the only thing that changes is what is visible beyond the glass. The interface is the railing, not the landscape.\n\nFour words describe the atmosphere, and their order matters more than the list: calm, cinematic, precise, inhabited. Calm is the tiebreaker — when a change would make the page livelier at the cost of stillness, stillness wins. That is not a preference but a ruling already made: an earlier build that rewrote the bio sentence on interaction was rejected for being jarring. Motion here changes the view, never the text. Cinematic is the means rather than the goal — full-bleed photography under a fixed scrim, light that shifts rather than elements that animate. Precision lives entirely in details: one type scale, one alpha ladder, four deliberate timings, and never in ornament. Inhabited is not a styling choice at all — every photograph, every note of music, and every line of code this page points at belongs to the person it describes. The proof and the decoration are the same material.\n\nThe system is small on purpose. One typeface at two weights, one accent, one ground. No shadows, no cards, no containers, no second screen. Anything that arrives wanting a box around it is either wrong for the page or belongs in the panel system.",
+    "keyCharacteristics": [
+      "One screen, pinned to the viewport — content distributed to the edges, never stacked from the top.",
+      "A photograph behind everything, under a fixed two-part scrim.",
+      "Nothing is filled and nothing is boxed; the interface is drawn in hairlines.",
+      "Zero shadows anywhere. Depth is atmospheric, not physical.",
+      "One typeface, two weights, seven text alphas.",
+      "Long, tiered transitions that read as light changing rather than as UI responding."
+    ],
+    "rules": [
+      { "name": "The Two-Scrim Rule", "body": "Text never sits directly on a photograph. Every photographic surface carries both scrims: the 100° linear wash (rgba(22,24,38,0.96) → 0.90 at 46% → 0.72) which guarantees legibility over the brightest frames, and the radial vignette (130% 100% at 15% 35%, transparent to rgba(22,24,38,0.6)) which closes the corners. One without the other is not the treatment — the wash alone leaves the corners open, and the vignette alone loses the text over mountains, ocean, and dog beach.", "section": "colors" },
+      { "name": "The One Light Rule", "body": "There is one ground (Blue Hour) and one light (Moonlight), and every neutral in the system is one of those two at an alpha. Never pure black, never pure white, and no gray ramp — text hierarchy is that single light at seven documented steps: 94% (bio), 82% (panel body), 62% (idle panel body), 48% (eyebrow), 45% (panel click line), 40% (idle kicker), 38% (photo caption). Reach for an existing step before inventing an eighth, and never express hierarchy as a different hue.", "section": "colors" },
+      { "name": "The One Face Rule", "body": "Inter at two weights (400 and 500) is the entire type system; a second family, a third weight, or an italic is a departure rather than an extension. Since the face never changes, tracking carries the distinctions instead: -0.025em on Display, normal everywhere in prose, and 0.14em on uppercase — which appears only at 11px and 12px and does not exist in this system above 12px.", "section": "typography" },
+      { "name": "The One Screen Rule", "body": "The composition is header / body / footer distributed across the full viewport height. Any addition must fit inside that frame or justify breaking it — this system has no second screen and no scroll narrative.", "section": "layout" },
+      { "name": "The Fluid Frame Rule", "body": "The frame breathes with the window (vh/vw padding, clamp() gaps, clamp() type) while the controls inside it stay at fixed pixel sizes. Buttons, thumbnails, and panel copy do not scale with the viewport; the space around them does.", "section": "layout" },
+      { "name": "The No-Shadow Rule", "body": "Do not add a box-shadow, a filter: drop-shadow, or a simulated elevation of any kind. If an element needs to come forward, it takes more light — a higher alpha, a brighter step of the ramp, or a tint. The design system's --shadow-sm token (0 0 0 1px #3f424d) exists upstream in Nocturne and is deliberately not carried into this project.", "section": "elevation" },
+      { "name": "The Drawn-Not-Built Rule", "body": "Components are inscribed on the view, not stacked on top of it. Nothing gets a filled background, a container, or mass. The primary button is therefore an accent outline, never a filled accent block — on this ground a solid violet button reads as a banner ad, and it is the single detail a generator is most likely to get wrong. If a new element seems to need a card around it, it belongs in the panel system or it does not belong on the page.", "section": "shapes" },
+      { "name": "The Tiered Motion Rule", "body": "Motion is tiered by distance from the viewer, and nearer things move faster: the backdrop crossfades at 850ms cubic-bezier(.4, 0, .2, 1), detail panels at 340ms ease, thumbnails at 260ms ease, and inline text tints at 200ms ease. Under prefers-reduced-motion: reduce all four collapse to ~0 — the state change still happens, it just arrives instantly. Always implement a crossfade as an opacity transition, never a CSS animation: an animation with animation-fill-mode: both pins opacity at its final keyframe and leaves every panel visible, stacked. That failure was hit in the prototype and is easy to reintroduce.", "section": "components" }
+    ],
+    "dos": [
+      "Do express text hierarchy with the alpha ladder (94 / 82 / 62 / 48 / 45 / 40 / 38) before reaching for a size or weight change.",
+      "Do give every state change a duration from the tiered motion set — 850ms backdrop, 340ms panel, 260ms thumbnail, 200ms inline text — and keep nearer things faster.",
+      "Do put both scrims over any photographic surface, always as a pair.",
+      "Do keep uppercase to 11–12px with 0.14em tracking.",
+      "Do wrap grid track floors in min() (minmax(min(380px, 100%), 1fr)) so a floor can never outgrow its container under overflow-x: hidden.",
+      "Do reach for a photograph first when a new surface needs a ground; the bare Blue Hour ground is legal, but it should be a decision rather than a default.",
+      "Do keep :focus-visible visible. Hover is not the only way into this system, and it must never become so."
+    ],
+    "donts": [
+      "Don't fill the primary button. It is an accent outline.",
+      "Don't add a box-shadow, drop-shadow, or any simulated elevation.",
+      "Don't introduce a second typeface, a third weight, or an italic.",
+      "Don't use pure black or pure white anywhere.",
+      "Don't add a second accent hue. One violet carries the whole system; a green success state or a red error state would be a departure.",
+      "Don't drive crossfades with a CSS animation — animation-fill-mode: both overrides opacity and stacks every panel visible.",
+      "Don't put a container, card, or filled background behind text.",
+      "Don't let hover be the only path to any content. Touch and keyboard visitors must reach everything the mouse can.",
+      "Don't use photos/clouds.jpg as a backdrop. It is 269px wide and bands badly when scaled; it is thumbnail-scale only."
+    ]
+  }
+}

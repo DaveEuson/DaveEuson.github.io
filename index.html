@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dave Euson — Solutions Architect</title>
+<meta name="description" content="Dave Euson, solutions architect with twenty years in broadcast. AI and GPU-accelerated video pipelines, electronic music, and photographs. Chula Vista, California.">
+<meta name="theme-color" content="#161826">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Dave Euson — Solutions Architect">
+<meta property="og:description" content="Twenty years in broadcast. AI and GPU-accelerated pipelines for companies that move enormous amounts of video.">
+<meta property="og:url" content="https://daveeuson.github.io/">
+<!-- Absolute, and JPEG, on purpose. Link-preview scrapers do not resolve
+     relative paths and are far less reliable with WebP than browsers are —
+     and this page is mostly reached from a shared link, so the preview is
+     load-bearing. It is also the one image a browser never fetches. -->
+<meta property="og:image" content="https://daveeuson.github.io/photos/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Morro Bay at dusk">
+<link rel="canonical" href="https://daveeuson.github.io/">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap">
+<!-- The resting backdrop is the one image worth preloading, but it has two
+     cuts and an unconditional preload fetches the wrong one as well as the
+     right one. The media queries must match the breakpoint in styles.css. -->
+<link rel="preload" as="image" href="photos/sm/bay.webp" media="(max-width: 760px)">
+<link rel="preload" as="image" href="photos/bay.webp" media="(min-width: 760.02px)">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="page" id="page">
+
+  <!-- Layer 0 — photo stack. bay.webp is the always-on resting image. -->
+  <div class="backdrop" aria-hidden="true">
+    <div class="backdrop__layer backdrop__layer--bay"></div>
+    <div class="backdrop__layer backdrop__layer--mountains"  data-layer="arch"></div>
+    <div class="backdrop__layer backdrop__layer--editbay"    data-layer="cast"></div>
+    <div class="backdrop__layer backdrop__layer--desk"       data-layer="ai"></div>
+    <div class="backdrop__layer backdrop__layer--flstudio"   data-layer="music"></div>
+    <div class="backdrop__layer backdrop__layer--ducks"      data-layer="code"></div>
+    <div class="backdrop__layer backdrop__layer--moon"       data-layer="photo"></div>
+    <div class="backdrop__layer backdrop__layer--ocean"      data-layer="ocean"></div>
+    <div class="backdrop__layer backdrop__layer--arena"      data-layer="arena"></div>
+    <div class="backdrop__layer backdrop__layer--dogbeach"   data-layer="dog"></div>
+    <div class="backdrop__layer backdrop__layer--citylights" data-layer="city"></div>
+    <div class="backdrop__layer backdrop__layer--stage"      data-layer="stage"></div>
+    <div class="backdrop__layer backdrop__layer--skyline"    data-layer="sky"></div>
+  </div>
+
+  <!-- Layer 1 — scrims. The first buys legibility over the bright photographs,
+       the second vignettes the corners. Both are required. -->
+  <div class="scrim scrim--wash" aria-hidden="true"></div>
+  <div class="scrim scrim--vignette" aria-hidden="true"></div>
+
+  <!-- Layer 2 — content. -->
+  <div class="shell">
+
+    <header class="masthead">
+      <h1 class="masthead__name">Dave Euson</h1>
+      <p class="masthead__eyebrow">Solutions architect&nbsp;·&nbsp;Chula Vista, California</p>
+    </header>
+
+    <main class="body-grid">
+
+      <div class="bio">
+        <p class="greeting">Hi! I am <span class="greeting__name">Dave</span>.</p>
+        <p>I build <a class="thread" data-thread="ai" href="https://github.com/DaveEuson" target="_blank" rel="noopener">AI and GPU-accelerated pipelines</a> for companies that move enormous amounts of video. Based in Chula Vista, CA. With a <a class="thread" data-thread="cast" href="assets/Dave-Euson-Resume.pdf" target="_blank" rel="noopener">20-year background in broadcast</a>, I specialize in <a class="thread" data-thread="arch" href="https://www.linkedin.com/in/daveeusonpost/" target="_blank" rel="noopener">connecting the dots between complex media systems</a>. Off the clock, I'm usually <a class="thread" data-thread="code" href="https://github.com/DaveEuson" target="_blank" rel="noopener">building desktop applications in React and Electron</a>, pushing the limits of local hardware or <a class="thread" data-thread="music" href="https://soundcloud.com/davee264" target="_blank" rel="noopener">writing electronic music in FL Studio</a>.</p>
+      </div>
+
+      <div class="detail">
+
+        <div class="panel is-active" data-panel="idle">
+          <p class="panel__kicker panel__kicker--idle">Five things worth knowing</p>
+          <p class="panel__body panel__body--idle only-hover">Hover any of the underlined phrases and the detail lands here. Click one and it takes you where it lives — LinkedIn, GitHub, SoundCloud, the résumé.</p>
+          <p class="panel__body panel__body--idle only-touch">Tap any of the underlined phrases and the detail lands here. Tap it again and it takes you where it lives — LinkedIn, GitHub, SoundCloud, the résumé.</p>
+        </div>
+
+        <div class="panel" data-panel="arch">
+          <p class="panel__kicker">03&nbsp;/&nbsp;Solutions architecture</p>
+          <p class="panel__body">The person who translates between the engineers and the executives. Discovery, scoping, POC design, architecture reviews, and the C-suite conversation at the end of them.</p>
+          <p class="panel__click">Click → LinkedIn</p>
+        </div>
+
+        <div class="panel" data-panel="cast">
+          <p class="panel__kicker">02&nbsp;/&nbsp;Twenty years in broadcast</p>
+          <p class="panel__body">NBCUniversal, Dalet/Amberfin, Ooyala, Glookast, Telestream, qibb. Edit bays and Avid ISIS at 2 a.m. for the Oscars, then MAM and supply-chain architecture for broadcasters across North America, Europe and APAC.</p>
+          <p class="panel__click">Click → the full résumé</p>
+        </div>
+
+        <div class="panel" data-panel="ai">
+          <p class="panel__kicker">01&nbsp;/&nbsp;AI and GPU pipelines</p>
+          <p class="panel__body">Agentic orchestration, Bedrock and Ollama, Twelve Labs and Reality Defender. Deepfake detection and automated metadata tagging — cloud-native pipelines that move enormous amounts of video without anyone babysitting them.</p>
+          <p class="panel__click">Click → GitHub</p>
+        </div>
+
+        <div class="panel" data-panel="music">
+          <p class="panel__kicker">05&nbsp;/&nbsp;Electronic music</p>
+          <p class="panel__body">Progressive house, mostly, and unapologetically influenced by the artists in that scene. Written at the same desk as everything else, one arrangement at a time.</p>
+          <p class="panel__click">Click → SoundCloud</p>
+        </div>
+
+        <div class="panel" data-panel="code">
+          <p class="panel__kicker">04&nbsp;/&nbsp;Code for the fun of it</p>
+          <p class="panel__body">Small tools, automation, Groovy workflow engines, SQL and Python — whatever is currently annoying me. Some of it ships to customers; most of it just saves me an hour a week.</p>
+          <p class="panel__click">Click → GitHub</p>
+        </div>
+
+        <div class="panel" data-panel="photo">
+          <p class="panel__kicker">Pictures</p>
+          <p class="panel__body">Sunsets, ducks, stages, mountains, the moon over a cypress tree. Nothing serious — I just like being outside with a camera. Everything behind this page is mine.</p>
+          <p class="panel__click">The strip below is the rest of them</p>
+        </div>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <nav class="linkrow" aria-label="Elsewhere">
+        <a class="btn btn-secondary" href="mailto:DaveEuson@gmail.com">Email</a>
+        <a class="btn btn-secondary" href="https://www.linkedin.com/in/daveeusonpost/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn btn-secondary" href="https://github.com/DaveEuson" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn btn-secondary" href="https://soundcloud.com/davee264" target="_blank" rel="noopener">SoundCloud</a>
+        <a class="btn btn-primary" href="assets/Dave-Euson-Resume.pdf" target="_blank" rel="noopener">Résumé</a>
+      </nav>
+
+      <div class="strip" id="photographs">
+        <div class="strip__row">
+          <picture>
+            <source media="(max-width: 760px)" srcset="photos/sm/bay.webp">
+            <img class="strip__thumb" data-thread="none" src="photos/bay.webp" alt="Morro Bay at dusk" width="108" height="68" decoding="async">
+          </picture>
+          <picture>
+            <source media="(max-width: 760px)" srcset="photos/sm/moon.webp">
+            <img class="strip__thumb" data-thread="photo" src="photos/moon.webp" alt="Crescent moon over a cypress" width="108" height="68" decoding="async">
+          </picture>
+          <picture>
+            <source media="(max-width: 760px)" srcset="photos/sm/ocean.webp">
+            <img class="strip__thumb" data-thread="ocean" src="photos/ocean.webp" alt="Sunset over the water" width="108" height="68" decoding="async">
+          </picture>
+          <picture>
+            <source media="(max-width: 760px)" srcset="photos/sm/skyline.webp">
+            <img class="strip__thumb" data-thread="sky" src="photos/skyline.webp" alt="Downtown San Diego at dusk" width="108" height="68" decoding="async">
+          </picture>
+          <picture>
+            <source media="(max-width: 760px)" srcset="photos/sm/citylights.webp">
+            <img class="strip__thumb" data-thread="city" src="photos/citylights.webp" alt="City lights at night" width="108" height="68" decoding="async">
+          </picture>
+          <picture>
+            <source media="(max-width: 760px)" srcset="photos/sm/stage-lights.webp">
+            <img class="strip__thumb" data-thread="stage" src="photos/stage-lights.webp" alt="A set under hanging lights" width="108" height="68" decoding="async">
+          </picture>
+          <picture>
+            <source media="(max-width: 760px)" srcset="photos/sm/arena.webp">
+            <img class="strip__thumb" data-thread="arena" src="photos/arena.webp" alt="Arena show" width="108" height="68" decoding="async">
+          </picture>
+          <picture>
+            <source media="(max-width: 760px)" srcset="photos/sm/ducks.webp">
+            <img class="strip__thumb" data-thread="code" src="photos/ducks.webp" alt="Two ducks on a deck" width="108" height="68" decoding="async">
+          </picture>
+          <picture>
+            <source media="(max-width: 760px)" srcset="photos/sm/mountains.webp">
+            <img class="strip__thumb" data-thread="arch" src="photos/mountains.webp" alt="Notch in the White Mountains" width="108" height="68" decoding="async">
+          </picture>
+          <picture>
+            <source media="(max-width: 760px)" srcset="photos/sm/dogbeach.webp">
+            <img class="strip__thumb" data-thread="dog" src="photos/dogbeach.webp" alt="Dog beach at golden hour" width="108" height="68" decoding="async">
+          </picture>
+        </div>
+        <p class="strip__caption">Photographs: mine, from wherever I happened to be standing.</p>
+      </div>
+    </footer>
+
+  </div>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

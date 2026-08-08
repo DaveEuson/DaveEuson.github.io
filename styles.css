@@ -1,0 +1,572 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Dave Euson — one-page personal site
+   Tokens ported from the Nocturne design system (only the roles this page
+   uses). Never pure black or pure white; all neutrals come from the ramp.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --color-bg: #161826;
+  --color-text: #e9e9ed;
+  --color-accent: #9184d9;
+  --color-accent-100: #f5f4ff;   /* phrase text on hover */
+  --color-accent-300: #d2cefd;   /* phrase text at rest */
+  --color-accent-400: #b5abfc;   /* panel kickers */
+  --color-divider: color-mix(in srgb, #e9e9ed 16%, transparent);
+
+  --font-heading: "Inter", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-heading-weight: 500;
+
+  --space-1: 2.8px;
+  --space-2: 5.6px;
+  --space-3: 8.4px;
+  --space-4: 11.2px;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+
+  /* Motion — the four durations this page uses. */
+  --dur-backdrop: 850ms;
+  --ease-backdrop: cubic-bezier(.4, 0, .2, 1);
+  /* The panel swap is split rather than cross-dissolved. Two blocks of text at
+     partial opacity are not a crossfade, they are a smear — sweeping a mouse
+     across the paragraph could put three panels on screen at once. The
+     outgoing panel clears first, then the incoming one fades into the empty
+     box. Total still reads as one 340ms gesture. */
+  --dur-panel-out: 120ms;
+  --dur-panel-in: 220ms;
+  --dur-panel: 340ms;
+  --dur-phrase: 200ms;
+  --dur-thumb: 260ms;
+}
+
+/* — base — */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body { margin: 0; background: var(--color-bg); }
+
+body {
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.55;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; max-width: 100%; }
+
+:focus { outline: none; }
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+::selection { background: color-mix(in srgb, var(--color-accent) 30%, transparent); }
+
+/* — page shell — */
+
+.page {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow-x: hidden;
+  background: var(--color-bg);
+}
+
+/* Layer 0 — the photo stack.
+   Lighten blending keeps the photographs from muddying the ground. */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  mix-blend-mode: lighten;
+}
+
+/* inset: -3% bleeds the layers past the viewport so they can be scaled
+   without exposing an edge. */
+.backdrop__layer {
+  position: absolute;
+  inset: -3%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity var(--dur-backdrop) var(--ease-backdrop);
+  will-change: opacity;
+}
+
+.backdrop__layer.is-active { opacity: 1; }
+
+/* The resting image is always opaque — every other layer fades over it. */
+.backdrop__layer--bay {
+  opacity: 1;
+  background-image: url("photos/bay.webp");
+}
+
+.backdrop__layer--mountains  { background-image: url("photos/mountains.webp"); }
+.backdrop__layer--editbay    { background-image: url("photos/editbay.webp"); }
+.backdrop__layer--desk       { background-image: url("photos/desk.webp"); }
+.backdrop__layer--flstudio   { background-image: url("photos/flstudio.webp"); }
+.backdrop__layer--ducks      { background-image: url("photos/ducks.webp"); }
+.backdrop__layer--moon       { background-image: url("photos/moon.webp"); }
+.backdrop__layer--ocean      { background-image: url("photos/ocean.webp"); }
+.backdrop__layer--arena      { background-image: url("photos/arena.webp"); }
+.backdrop__layer--dogbeach   { background-image: url("photos/dogbeach.webp"); }
+.backdrop__layer--citylights { background-image: url("photos/citylights.webp"); }
+.backdrop__layer--stage      { background-image: url("photos/stage-lights.webp"); }
+.backdrop__layer--skyline    { background-image: url("photos/skyline.webp"); }
+
+/* Narrow viewports get a 1000px-long-edge cut of each frame: 1.63 MB of
+   backdrop becomes 0.66 MB. The photographs sit at 4–10% brightness under the
+   scrim, so the resolution loss is invisible while the saving is not.
+
+   The 760px breakpoint MUST stay identical to the <picture> media attribute on
+   the thumbnails in index.html. The strip and the backdrop deliberately point
+   at the same files so ten thumbnails cost zero extra requests; if the two
+   breakpoints ever drift apart, every photograph downloads twice. */
+@media (max-width: 760px) {
+  .backdrop__layer--bay        { background-image: url("photos/sm/bay.webp"); }
+  .backdrop__layer--mountains  { background-image: url("photos/sm/mountains.webp"); }
+  .backdrop__layer--editbay    { background-image: url("photos/sm/editbay.webp"); }
+  .backdrop__layer--desk       { background-image: url("photos/sm/desk.webp"); }
+  .backdrop__layer--flstudio   { background-image: url("photos/sm/flstudio.webp"); }
+  .backdrop__layer--ducks      { background-image: url("photos/sm/ducks.webp"); }
+  .backdrop__layer--moon       { background-image: url("photos/sm/moon.webp"); }
+  .backdrop__layer--ocean      { background-image: url("photos/sm/ocean.webp"); }
+  .backdrop__layer--arena      { background-image: url("photos/sm/arena.webp"); }
+  .backdrop__layer--dogbeach   { background-image: url("photos/sm/dogbeach.webp"); }
+  .backdrop__layer--citylights { background-image: url("photos/sm/citylights.webp"); }
+  .backdrop__layer--stage      { background-image: url("photos/sm/stage-lights.webp"); }
+  .backdrop__layer--skyline    { background-image: url("photos/sm/skyline.webp"); }
+}
+
+/* A portrait viewport crops these landscape frames to roughly a third of their
+   width, and `center` is the wrong third for several of them: a centre crop
+   loses Morro Rock entirely, and loses both the crescent moon and the cypress.
+   Each value below is the horizontal point that keeps the actual subject in
+   frame. Vertical position is irrelevant here — cover fills the height exactly,
+   so only the horizontal third is a choice. Landscape keeps `center`, which is
+   what the composition was tuned for.
+
+   desk (shot portrait), flstudio (UI texture, no subject), dogbeach, arena,
+   citylights and stage-lights are centre-composed and are deliberately absent. */
+@media (orientation: portrait) {
+  .backdrop__layer--bay       { background-position: 22% center; }
+  .backdrop__layer--mountains { background-position: 35% center; }
+  .backdrop__layer--editbay   { background-position: 57% center; }
+  .backdrop__layer--ducks     { background-position: 40% center; }
+  .backdrop__layer--moon      { background-position: 25% center; }
+  .backdrop__layer--ocean     { background-position: 58% center; }
+  .backdrop__layer--skyline   { background-position: 42% center; }
+}
+
+/* Layer 1 — scrims. */
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Guarantees legibility over the bright frames (mountains, ocean, dog beach). */
+.scrim--wash {
+  background: linear-gradient(100deg,
+    rgba(22, 24, 38, 0.96) 0%,
+    rgba(22, 24, 38, 0.90) 46%,
+    rgba(22, 24, 38, 0.72) 100%);
+}
+
+.scrim--vignette {
+  background: radial-gradient(130% 100% at 15% 35%,
+    transparent 25%,
+    rgba(22, 24, 38, 0.6) 100%);
+}
+
+/* Layer 2 — content. */
+.shell {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 48px;
+  padding: 6vh 5vw 40px;
+}
+
+/* — header — */
+
+.masthead {
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.masthead__name {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(36px, 4.4vw, 60px);
+  font-weight: var(--font-heading-weight);
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+  color: var(--color-text);
+}
+
+.masthead__eyebrow {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-text) 62%, transparent);
+}
+
+/* — body — */
+
+/* auto-fit + a 380px floor stacks the columns around 860px of content
+   width without a media query. min() caps the floor at the container: a bare
+   380px track outgrows the content box below ~420px and overflow-x: hidden
+   then clips the end of every line instead of wrapping it. */
+.body-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr));
+  gap: clamp(36px, 5vw, 76px);
+  align-items: start;
+}
+
+.bio {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7em;
+  font-size: clamp(21px, 1.85vw, 28px);
+  line-height: 1.58;
+  color: color-mix(in srgb, var(--color-text) 94%, transparent);
+  text-wrap: pretty;
+}
+
+.bio p { margin: 0; }
+
+/* The greeting is a salutation, not prose and not a second heading. It sits
+   between the two — above Title size, well below the h1 — and takes the
+   display treatment (weight 500, tight tracking) that no other body element
+   gets. The two-tone split is the stylization: the pleasantry recedes to 52%
+   and only the name comes forward at full strength, so the eye lands on
+   "Dave" rather than on "Hi". */
+.greeting {
+  font-size: clamp(26px, 2.6vw, 36px);
+  font-weight: var(--font-heading-weight);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: color-mix(in srgb, var(--color-text) 62%, transparent);
+}
+
+.greeting__name { color: var(--color-text); }
+
+.thread {
+  color: var(--color-accent-300);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-accent) 50%, transparent);
+  transition: color var(--dur-phrase) ease, background-color var(--dur-phrase) ease;
+}
+
+.thread:hover,
+.thread.is-active {
+  color: var(--color-accent-100);
+  background-color: color-mix(in srgb, var(--color-accent) 22%, transparent);
+}
+
+/* — detail column — */
+
+.detail {
+  position: relative;
+  min-height: 320px;
+  border-left: 1px solid var(--color-divider);
+  padding-left: 32px;
+}
+
+/* All seven panels stay mounted; only opacity changes. Deliberately a plain
+   transition and not a keyframe animation — an animation with fill-mode:both
+   pins opacity at its last keyframe and every panel stacks up visible.
+   visibility rides along so hidden panels leave the accessibility tree.
+
+   The two durations are asymmetric on purpose. A symmetric cross-dissolve
+   works for photographs and fails for text: the outgoing and incoming copy
+   both sit at partial opacity in the same box and the result is an
+   unreadable smear, three panels deep if the pointer sweeps the paragraph.
+   Leaving first and arriving second keeps exactly one panel legible at any
+   instant. */
+.panel {
+  position: absolute;
+  inset: 0 0 0 32px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--dur-panel-out) ease,
+              visibility var(--dur-panel-out);
+}
+
+.panel.is-active {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity var(--dur-panel-in) ease var(--dur-panel-out),
+              visibility 0s;
+}
+
+.panel[data-panel="idle"].is-active { pointer-events: auto; }
+
+.panel__kicker {
+  margin: 0 0 10px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent-400);
+}
+
+.panel__kicker--idle { color: color-mix(in srgb, var(--color-text) 62%, transparent); }
+
+.panel__body {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.65;
+  color: color-mix(in srgb, var(--color-text) 82%, transparent);
+}
+
+.panel__body--idle { color: color-mix(in srgb, var(--color-text) 62%, transparent); }
+
+.panel__click {
+  margin: 14px 0 0;
+  font-size: 13px;
+  color: color-mix(in srgb, var(--color-text) 62%, transparent);
+}
+
+/* — footer — */
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.linkrow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.strip {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.strip__row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.strip__thumb {
+  width: 108px;
+  height: 68px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  opacity: 0.45;
+  transition: opacity var(--dur-thumb) ease;
+  cursor: pointer;
+}
+
+/* Each thumbnail is wrapped in <picture> so it resolves to the same file the
+   backdrop is using at this breakpoint. That makes the wrapper the flex item,
+   so it — not the img — carries the layout role. */
+.strip__row picture { display: block; }
+
+.strip__thumb:hover,
+.strip__thumb.is-active { opacity: 1; }
+
+.strip__caption {
+  margin: 0;
+  font-size: 12px;
+  color: color-mix(in srgb, var(--color-text) 62%, transparent);
+}
+
+/* — buttons (Nocturne .btn layer, ported as-is) —
+   btn-primary is an accent *outline* in this system, never a filled
+   accent button. */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight);
+  font-size: 14px;
+  line-height: 1.2;
+  color: var(--color-text);
+  background: transparent;
+  border: 1px solid transparent;
+  padding: var(--space-2) calc(var(--space-3) * 1.2);
+  border-radius: var(--radius-md);
+}
+
+.btn-primary { color: var(--color-accent); border-color: var(--color-accent); }
+.btn-primary:hover { background: color-mix(in srgb, var(--color-accent) 12%, transparent); }
+.btn-primary:active { background: color-mix(in srgb, var(--color-accent) 22%, transparent); }
+
+.btn-secondary { border-color: var(--color-divider); }
+.btn-secondary:hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
+.btn-secondary:active { background: color-mix(in srgb, var(--color-text) 14%, transparent); }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Responsive
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* The One Screen Rule has to survive the phone, and a phone gives about 812px
+   of height to spend against ~1300px of desktop composition. Nothing here is
+   a new idea — every value is the desktop system compressed. The frame gives
+   up the most (padding and gaps roughly halve), type steps down one notch,
+   and the photo strip stops stacking rows and becomes a single swipeable
+   filmstrip, which is where the largest single saving lives. */
+@media (max-width: 760px) {
+  .shell {
+    gap: 16px;
+    padding: 2vh 6vw 16px;
+  }
+
+  .masthead { gap: 8px; }
+
+  .masthead__name { font-size: 30px; }
+
+  .masthead__eyebrow { font-size: 11px; }
+
+  .body-grid { gap: 20px; }
+
+  .bio {
+    font-size: 16px;
+    gap: 0.6em;
+  }
+
+  .greeting { font-size: 20px; }
+
+  .detail {
+    min-height: 0;
+    border-left: 0;
+    border-top: 1px solid var(--color-divider);
+    padding-left: 0;
+    padding-top: 14px;
+    /* Every panel occupies the same grid cell, so the column is always exactly
+       as tall as the tallest panel. That does three things at once: the page
+       height stops depending on which thread is open, tapping a phrase can
+       never shift the layout under the finger that tapped it, and the opacity
+       crossfade survives on mobile instead of degrading to a display swap. */
+    display: grid;
+  }
+
+  .panel {
+    position: static;
+    inset: auto;
+    grid-area: 1 / 1;
+  }
+
+  .panel__kicker { margin-bottom: 5px; }
+  .panel__body { font-size: 14px; line-height: 1.55; }
+  .panel__click { margin-top: 6px; font-size: 12px; }
+
+  .footer { gap: 14px; }
+
+  /* One row that scrolls sideways rather than four that stack downward: ten
+     thumbnails cost 68px of height instead of 337px, and a filmstrip you push
+     with a thumb is a better way to look at photographs than a grid of stamps.
+     The negative margin lets the strip bleed to both screen edges so it reads
+     as continuing past them, which is the affordance that says "scroll me". */
+  .strip { gap: 6px; }
+
+  .strip__caption { font-size: 11px; line-height: 1.4; }
+
+  .strip__row {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-inline: -6vw;
+    padding-inline: 6vw;
+  }
+
+  .strip__row::-webkit-scrollbar { display: none; }
+
+  .strip__row picture {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+}
+
+/* Short phones — an SE at 667px, an 8 Plus at 736px — have about 140px less to
+   spend than the block above assumes, and the composition above lands within
+   3px on a 812px screen, which is not a margin worth trusting to a font
+   fallback. Gating on height rather than width lets the tall phones keep the
+   roomier setting while everything from the SE up to a 13 mini gets a version
+   with real headroom. One notch down again on type, one notch tighter on every
+   gap, and a smaller filmstrip frame; nothing is removed. */
+@media (max-width: 760px) and (max-height: 830px) {
+  .shell {
+    gap: 10px;
+    padding: 1.5vh 6vw 10px;
+  }
+
+  .masthead { gap: 6px; }
+  .masthead__name { font-size: 26px; }
+  .masthead__eyebrow { font-size: 10px; }
+
+  .body-grid { gap: 12px; }
+
+  .bio { font-size: 15px; }
+  .greeting { font-size: 17px; }
+
+  .detail { padding-top: 10px; }
+
+  .panel__kicker { margin-bottom: 3px; }
+  .panel__body { font-size: 13px; }
+  .panel__click { margin-top: 4px; font-size: 11px; }
+
+  .footer { gap: 10px; }
+
+  .strip { gap: 4px; }
+
+  .strip__thumb {
+    width: 88px;
+    height: 55px;
+  }
+}
+
+/* Touch devices get the phrase-active state as a real affordance: the first
+   tap opens the thread, the second follows the link (see main.js).
+
+   The idle panel is the only place that instruction is ever stated, and
+   "Hover" is simply false on a phone — worse, the two-tap behavior is
+   undiscoverable unless something says so. Swapping the sentence keeps the
+   desktop copy exactly as written and makes the touch copy true. */
+.only-touch { display: none; }
+
+@media (hover: none) {
+  .strip__thumb { opacity: 0.7; }
+  .only-hover { display: none; }
+  .only-touch { display: block; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Reduced motion — the state change still applies, just instantly.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop__layer,
+  .panel,
+  .thread,
+  .strip__thumb {
+    transition-duration: 1ms !important;
+    /* the panel swap is staggered, so the delay has to go too or the state
+       change still arrives 120ms late for someone who asked for no motion */
+    transition-delay: 0s !important;
+  }
+}
