@@ -2,26 +2,19 @@
 # The zip and its unpacked copy are reference material, not part of the site.
 # `extracted/` is fully derivable from the zip, so it never needs tracking.
 #
-# WARNING: these two are currently the ONLY copies of the original JPEG
-# masters and of Dave-Euson-Resume.docx (the editable source the PDF is
-# exported from). Ignoring them keeps the repo lean but means a clone of this
-# repo cannot rebuild those assets. Keep a copy somewhere off this machine.
+# WARNING: these two hold the only copies of the original JPEG masters and of
+# Dave-Euson-Resume.docx, the editable source the PDF is exported from.
+# Ignoring them keeps the repo lean, but a clone cannot rebuild those assets.
+# Keep a copy somewhere off this machine.
 #
-# They also must not ship: GitHub Pages serves whatever is in the published
+# They also must not ship. GitHub Pages serves whatever is in the published
 # branch, and the résumé inside the bundle carries a phone number that is
-# deliberately kept off the site.
+# kept off the site.
 extracted/
 *.zip
 
-# ─── Local tooling state ────────────────────────────────────────────────────
-# Live-mode session journals and resolved-root manifests are machine-local
-# runtime state. `.impeccable/live/config.json` and `.impeccable/design.json`
-# are project config and stay tracked.
-.impeccable/live/sessions/
-.impeccable/live/roots.json
-.impeccable/live/inject-journal.json
-
-# Personal Claude Code settings; .claude/launch.json is shared config and stays.
+# ─── Local settings ─────────────────────────────────────────────────────────
+# .claude/launch.json is shared config and stays tracked.
 .claude/settings.local.json
 
 # ─── Editor and OS noise ────────────────────────────────────────────────────

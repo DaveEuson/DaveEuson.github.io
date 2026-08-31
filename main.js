@@ -1,6 +1,6 @@
-/* One piece of state: `active` — a thread key, a strip-only photo key, or
-   null for resting. Everything else derives from it: which backdrop layer is
-   opaque, which detail panel is up, which phrase is lit. */
+/* One piece of state: `active`. It holds a thread key, a strip-only photo key,
+   or null for resting. Everything else derives from it: which backdrop layer
+   is opaque, which detail panel is up, which phrase is lit. */
 
 (function () {
   'use strict';
@@ -42,8 +42,8 @@
     if (key === active) return;
     active = key;
 
-    // Strip-only photos have a backdrop but no panel — the detail column
-    // clears and the photograph carries the moment on its own.
+    // Strip-only photos have a backdrop but no panel: the detail column
+    // clears and only the photograph changes.
     var panelKey = THREADS.indexOf(key) !== -1 ? key : (key === null ? 'idle' : '');
 
     each(layers,  function (el) { toggle(el, el.dataset.layer === key); });
@@ -55,7 +55,7 @@
   function each(list, fn) { Array.prototype.forEach.call(list, fn); }
   function toggle(el, on) { el.classList.toggle('is-active', on); }
 
-  // `none` is the resting thumbnail (bay) — hovering it returns to rest.
+  // `none` is the resting thumbnail (bay); hovering it returns to rest.
   function keyOf(el) {
     var k = el.dataset.thread;
     return k === 'none' ? null : k;
@@ -64,7 +64,7 @@
   each(phrases, function (el) {
     // A tap emits a synthetic mouseenter before its click. Left ungated, that
     // opens the thread during the same tap that is about to be tested against
-    // `active`, the guard passes, and the link fires on the first tap — the
+    // `active`, the guard passes, and the link fires on the first tap, so the
     // two-step never happens on any touch device.
     el.addEventListener('mouseenter', function () {
       if (!pointerIsMouse()) return;
@@ -72,7 +72,7 @@
     });
 
     // Keyboard users get the same reveal on focus; hover alone would lock
-    // them out of the six panels entirely.
+    // them out of the five thread panels entirely.
     el.addEventListener('focus', function () { setActive(keyOf(el)); });
 
     // Tapped rather than clicked: the first tap opens the thread and the

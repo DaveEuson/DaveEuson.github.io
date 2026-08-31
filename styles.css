@@ -28,11 +28,9 @@
   /* Motion — the four durations this page uses. */
   --dur-backdrop: 850ms;
   --ease-backdrop: cubic-bezier(.4, 0, .2, 1);
-  /* The panel swap is split rather than cross-dissolved. Two blocks of text at
-     partial opacity are not a crossfade, they are a smear — sweeping a mouse
-     across the paragraph could put three panels on screen at once. The
-     outgoing panel clears first, then the incoming one fades into the empty
-     box. Total still reads as one 340ms gesture. */
+  /* The outgoing panel clears before the incoming one fades in. The two
+     halves together read as one 340ms gesture; the .panel rule explains why
+     they are not a cross-dissolve. */
   --dur-panel-out: 120ms;
   --dur-panel-in: 220ms;
   --dur-panel: 340ms;
@@ -95,7 +93,7 @@ img { display: block; max-width: 100%; }
 
 .backdrop__layer.is-active { opacity: 1; }
 
-/* The resting image is always opaque — every other layer fades over it. */
+/* The resting image is always opaque; every other layer fades over it. */
 .backdrop__layer--bay {
   opacity: 1;
   background-image: url("photos/bay.webp");
@@ -116,7 +114,7 @@ img { display: block; max-width: 100%; }
 
 /* Narrow viewports get a 1000px-long-edge cut of each frame: 1.63 MB of
    backdrop becomes 0.66 MB. The photographs sit at 4–10% brightness under the
-   scrim, so the resolution loss is invisible while the saving is not.
+   scrim, so the resolution loss does not show.
 
    The 760px breakpoint MUST stay identical to the <picture> media attribute on
    the thumbnails in index.html. The strip and the backdrop deliberately point
@@ -142,7 +140,7 @@ img { display: block; max-width: 100%; }
    width, and `center` is the wrong third for several of them: a centre crop
    loses Morro Rock entirely, and loses both the crescent moon and the cypress.
    Each value below is the horizontal point that keeps the actual subject in
-   frame. Vertical position is irrelevant here — cover fills the height exactly,
+   frame. Vertical position is irrelevant because cover fills the height exactly,
    so only the horizontal third is a choice. Landscape keeps `center`, which is
    what the composition was tuned for.
 
@@ -245,12 +243,10 @@ img { display: block; max-width: 100%; }
 
 .bio p { margin: 0; }
 
-/* The greeting is a salutation, not prose and not a second heading. It sits
-   between the two — above Title size, well below the h1 — and takes the
-   display treatment (weight 500, tight tracking) that no other body element
-   gets. The two-tone split is the stylization: the pleasantry recedes to 52%
-   and only the name comes forward at full strength, so the eye lands on
-   "Dave" rather than on "Hi". */
+/* The greeting is a salutation. It sits above Title size and well below the
+   h1, and takes the display treatment (weight 500, tight tracking) that no
+   other body element gets. The pleasantry recedes to 52% while the name stays
+   at full strength, so the eye lands on "Dave" rather than on "Hi". */
 .greeting {
   font-size: clamp(26px, 2.6vw, 36px);
   font-weight: var(--font-heading-weight);
@@ -284,15 +280,14 @@ img { display: block; max-width: 100%; }
 }
 
 /* All seven panels stay mounted; only opacity changes. Deliberately a plain
-   transition and not a keyframe animation — an animation with fill-mode:both
+   transition, never a keyframe animation: an animation with fill-mode:both
    pins opacity at its last keyframe and every panel stacks up visible.
    visibility rides along so hidden panels leave the accessibility tree.
 
    The two durations are asymmetric on purpose. A symmetric cross-dissolve
-   works for photographs and fails for text: the outgoing and incoming copy
-   both sit at partial opacity in the same box and the result is an
-   unreadable smear, three panels deep if the pointer sweeps the paragraph.
-   Leaving first and arriving second keeps exactly one panel legible at any
+   works for photographs and fails for text: both copies sit at partial
+   opacity in the same box, and a pointer sweeping the paragraph stacked
+   three of them. Clearing before fading in keeps one panel legible at any
    instant. */
 .panel {
   position: absolute;
@@ -376,7 +371,7 @@ img { display: block; max-width: 100%; }
 
 /* Each thumbnail is wrapped in <picture> so it resolves to the same file the
    backdrop is using at this breakpoint. That makes the wrapper the flex item,
-   so it — not the img — carries the layout role. */
+   so the wrapper, not the img, carries the layout role. */
 .strip__row picture { display: block; }
 
 .strip__thumb:hover,
@@ -423,11 +418,11 @@ img { display: block; max-width: 100%; }
    ═══════════════════════════════════════════════════════════════════════ */
 
 /* The One Screen Rule has to survive the phone, and a phone gives about 812px
-   of height to spend against ~1300px of desktop composition. Nothing here is
-   a new idea — every value is the desktop system compressed. The frame gives
-   up the most (padding and gaps roughly halve), type steps down one notch,
-   and the photo strip stops stacking rows and becomes a single swipeable
-   filmstrip, which is where the largest single saving lives. */
+   of height to spend against ~1300px of desktop composition. Every value here
+   is the desktop system compressed. The frame gives up the most (padding and
+   gaps roughly halve), type steps down one notch, and the photo strip stops
+   stacking rows to become a single swipeable filmstrip, the largest single
+   saving. */
 @media (max-width: 760px) {
   .shell {
     gap: 16px;
@@ -456,10 +451,10 @@ img { display: block; max-width: 100%; }
     padding-left: 0;
     padding-top: 14px;
     /* Every panel occupies the same grid cell, so the column is always exactly
-       as tall as the tallest panel. That does three things at once: the page
-       height stops depending on which thread is open, tapping a phrase can
-       never shift the layout under the finger that tapped it, and the opacity
-       crossfade survives on mobile instead of degrading to a display swap. */
+       as tall as the tallest panel. So the page height stops depending on
+       which thread is open, tapping a phrase cannot shift the layout under the
+       finger that tapped it, and the opacity crossfade survives on mobile
+       instead of degrading to a display swap. */
     display: grid;
   }
 
@@ -476,10 +471,9 @@ img { display: block; max-width: 100%; }
   .footer { gap: 14px; }
 
   /* One row that scrolls sideways rather than four that stack downward: ten
-     thumbnails cost 68px of height instead of 337px, and a filmstrip you push
-     with a thumb is a better way to look at photographs than a grid of stamps.
-     The negative margin lets the strip bleed to both screen edges so it reads
-     as continuing past them, which is the affordance that says "scroll me". */
+     thumbnails cost 68px of height instead of 337px. The negative margin lets
+     the strip bleed to both screen edges so it reads as continuing past
+     them. */
   .strip { gap: 6px; }
 
   .strip__caption { font-size: 11px; line-height: 1.4; }
@@ -502,7 +496,7 @@ img { display: block; max-width: 100%; }
   }
 }
 
-/* Short phones — an SE at 667px, an 8 Plus at 736px — have about 140px less to
+/* Short phones (an SE at 667px, an 8 Plus at 736px) have about 140px less to
    spend than the block above assumes, and the composition above lands within
    3px on a 812px screen, which is not a margin worth trusting to a font
    fallback. Gating on height rather than width lets the tall phones keep the
@@ -544,8 +538,8 @@ img { display: block; max-width: 100%; }
    tap opens the thread, the second follows the link (see main.js).
 
    The idle panel is the only place that instruction is ever stated, and
-   "Hover" is simply false on a phone — worse, the two-tap behavior is
-   undiscoverable unless something says so. Swapping the sentence keeps the
+   "Hover" is false on a phone, and the two-tap behavior is undiscoverable
+   unless something says so. Swapping the sentence keeps the
    desktop copy exactly as written and makes the touch copy true. */
 .only-touch { display: none; }
 
