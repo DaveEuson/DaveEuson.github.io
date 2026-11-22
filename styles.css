@@ -12,6 +12,7 @@
   --color-accent-300: #d2cefd;   /* phrase text at rest */
   --color-accent-400: #b5abfc;   /* panel kickers */
   --color-divider: color-mix(in srgb, #e9e9ed 16%, transparent);
+  --color-onair: #f0b46a;        /* the tally light and anything live */
 
   --font-heading: "Inter", system-ui, sans-serif;
   --font-body: "Inter", system-ui, sans-serif;
@@ -76,6 +77,15 @@ img { display: block; max-width: 100%; }
   inset: 0;
   z-index: 0;
   mix-blend-mode: lighten;
+  /* One slow drift on the container, so every layer moves together and a
+     crossfade never shows two photographs at different scales. It only ever
+     scales up, so the -3% bleed below is enough to hide the edges. */
+  animation: drift 38s ease-in-out infinite alternate;
+}
+
+@keyframes drift {
+  from { transform: scale(1); }
+  to   { transform: scale(1.06) translate3d(-1%, -0.5%, 0); }
 }
 
 /* inset: -3% bleeds the layers past the viewport so they can be scaled
@@ -167,9 +177,9 @@ img { display: block; max-width: 100%; }
 /* Guarantees legibility over the bright frames (mountains, ocean, dog beach). */
 .scrim--wash {
   background: linear-gradient(100deg,
-    rgba(22, 24, 38, 0.96) 0%,
-    rgba(22, 24, 38, 0.90) 46%,
-    rgba(22, 24, 38, 0.72) 100%);
+    rgba(22, 24, 38, 0.95) 0%,
+    rgba(22, 24, 38, 0.88) 46%,
+    rgba(22, 24, 38, 0.60) 100%);
 }
 
 .scrim--vignette {
@@ -179,35 +189,87 @@ img { display: block; max-width: 100%; }
 }
 
 /* Layer 2 — content. */
-.shell {
+.content {
   position: relative;
   z-index: 2;
+}
+
+/* The first screen: the hero fills it and the ticker sits on its bottom
+   edge, so the page opens on the same composition it always had and the
+   new work starts exactly one scroll down. */
+.first {
   min-height: 100vh;
   min-height: 100svh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 48px;
-  padding: 6vh 5vw 40px;
 }
+
+.shell {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 4vh 5vw 48px;
+}
+
+.wrap { padding-inline: 5vw; }
 
 /* — header — */
 
 .masthead {
   display: flex;
-  align-items: baseline;
-  gap: 24px;
+  flex-direction: column;
+  gap: clamp(20px, 4vh, 44px);
+}
+
+.masthead__top {
+  display: flex;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
 }
 
 .masthead__name {
   margin: 0;
   font-family: var(--font-heading);
-  font-size: clamp(36px, 4.4vw, 60px);
+  font-size: clamp(64px, 11.5vw, 176px);
   font-weight: var(--font-heading-weight);
-  letter-spacing: -0.025em;
-  line-height: 1.12;
+  letter-spacing: -0.045em;
+  line-height: 0.92;
   color: var(--color-text);
+}
+
+.onair {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid color-mix(in srgb, var(--color-onair) 50%, transparent);
+  border-radius: 999px;
+  color: var(--color-onair);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: background-color var(--dur-phrase) ease;
+}
+
+.onair:hover { background: color-mix(in srgb, var(--color-onair) 12%, transparent); }
+
+.onair__tally {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-onair);
+  animation: tally 1.6s ease-in-out infinite;
+}
+
+@keyframes tally {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.25; }
 }
 
 .masthead__eyebrow {
@@ -317,6 +379,7 @@ img { display: block; max-width: 100%; }
 }
 
 .panel__kicker--idle { color: color-mix(in srgb, var(--color-text) 62%, transparent); }
+.panel__kicker--onair { color: var(--color-onair); }
 
 .panel__body {
   margin: 0;
@@ -333,12 +396,158 @@ img { display: block; max-width: 100%; }
   color: color-mix(in srgb, var(--color-text) 62%, transparent);
 }
 
+/* — ticker — */
+
+.ticker {
+  overflow: hidden;
+  border-block: 1px solid var(--color-divider);
+  background: color-mix(in srgb, var(--color-bg) 55%, transparent);
+}
+
+.ticker__track {
+  display: flex;
+  width: max-content;
+  animation: ticker 46s linear infinite;
+}
+
+.ticker:hover .ticker__track { animation-play-state: paused; }
+
+.ticker__run {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  padding: 14px 20px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: color-mix(in srgb, var(--color-text) 62%, transparent);
+}
+
+.ticker__lead { color: var(--color-onair); }
+.ticker__sep  { color: var(--color-accent); }
+
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* — lately — */
+
+.lately {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding-block: 72px 56px;
+}
+
+.lately__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 24px;
+}
+
+.lately__title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(36px, 5vw, 68px);
+  font-weight: var(--font-heading-weight);
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+
+.lately__kicker {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-text) 62%, transparent);
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid var(--color-divider);
+}
+
+/* Each row is a thread like the phrases in the bio: hovering it swaps the
+   photograph behind the page. flex-wrap stacks the three parts on a phone
+   without a media query. */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 32px;
+  padding: 22px 0;
+  border-top: 1px solid var(--color-divider);
+  color: var(--color-text);
+  text-decoration: none;
+  transition: background-color var(--dur-panel-in) ease, padding var(--dur-panel-in) ease;
+}
+
+.row:hover,
+.row.is-active {
+  background-color: color-mix(in srgb, var(--color-accent) 16%, transparent);
+  padding-inline: 20px;
+}
+
+.row__lead {
+  flex: 1 1 300px;
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+}
+
+.row__num {
+  min-width: 28px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  color: var(--color-accent-400);
+}
+
+.row__num--onair { color: var(--color-onair); }
+
+.row__name {
+  font-family: var(--font-heading);
+  font-size: clamp(24px, 2.5vw, 36px);
+  font-weight: var(--font-heading-weight);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  transition: color var(--dur-panel-in) ease;
+}
+
+.row:hover .row__name,
+.row.is-active .row__name { color: var(--color-accent-100); }
+
+.row__desc {
+  flex: 2 1 340px;
+  font-size: 16px;
+  line-height: 1.55;
+  color: color-mix(in srgb, var(--color-text) 82%, transparent);
+}
+
+.row__go {
+  flex: 0 0 auto;
+  font-size: 13px;
+  color: color-mix(in srgb, var(--color-text) 62%, transparent);
+  transition: color var(--dur-panel-in) ease, transform var(--dur-panel-in) ease;
+}
+
+a.row:hover .row__go,
+a.row.is-active .row__go {
+  color: var(--color-text);
+  transform: translateX(6px);
+}
+
 /* — footer — */
 
 .footer {
   display: flex;
   flex-direction: column;
   gap: 30px;
+  padding-block: 24px 48px;
 }
 
 .linkrow {
@@ -365,9 +574,12 @@ img { display: block; max-width: 100%; }
   object-fit: cover;
   border-radius: var(--radius-sm);
   opacity: 0.45;
-  transition: opacity var(--dur-thumb) ease;
+  transition: opacity var(--dur-thumb) ease, transform var(--dur-thumb) ease;
   cursor: pointer;
 }
+
+.strip__thumb:hover,
+.strip__thumb.is-active { transform: translateY(-4px); }
 
 /* Each thumbnail is wrapped in <picture> so it resolves to the same file the
    backdrop is using at this breakpoint. That makes the wrapper the flex item,
@@ -429,9 +641,16 @@ img { display: block; max-width: 100%; }
     padding: 2vh 6vw 16px;
   }
 
+  .wrap { padding-inline: 6vw; }
+
+  .lately { gap: 20px; padding-block: 40px 32px; }
+  .row { padding-block: 16px; }
+  .row__desc { font-size: 14px; }
+  .footer { padding-block: 16px 24px; }
+
   .masthead { gap: 8px; }
 
-  .masthead__name { font-size: 30px; }
+  .masthead__name { font-size: 56px; }
 
   .masthead__eyebrow { font-size: 11px; }
 
@@ -510,7 +729,7 @@ img { display: block; max-width: 100%; }
   }
 
   .masthead { gap: 6px; }
-  .masthead__name { font-size: 26px; }
+  .masthead__name { font-size: 46px; }
   .masthead__eyebrow { font-size: 10px; }
 
   .body-grid { gap: 12px; }
@@ -554,9 +773,18 @@ img { display: block; max-width: 100%; }
    ═══════════════════════════════════════════════════════════════════════ */
 
 @media (prefers-reduced-motion: reduce) {
+  /* The drift, the tally pulse and the ticker are decoration, so they stop
+     outright; the ticker's text stays readable where it stands. */
+  .backdrop,
+  .onair__tally,
+  .ticker__track { animation: none; }
+
   .backdrop__layer,
   .panel,
   .thread,
+  .row,
+  .row__name,
+  .row__go,
   .strip__thumb {
     transition-duration: 1ms !important;
     /* the panel swap is staggered, so the delay has to go too or the state

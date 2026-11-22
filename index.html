@@ -59,11 +59,19 @@
   <div class="scrim scrim--vignette" aria-hidden="true"></div>
 
   <!-- Layer 2 — content. -->
+  <div class="content">
+  <div class="first">
   <div class="shell">
 
     <header class="masthead">
+      <div class="masthead__top">
+        <p class="masthead__eyebrow">Solutions architect&nbsp;·&nbsp;Chula Vista, California</p>
+        <a class="onair" data-thread="slop" href="https://twitch.tv/slopmart" target="_blank" rel="noopener">
+          <span class="onair__tally" aria-hidden="true"></span>
+          On air&nbsp;·&nbsp;SlopMart 24
+        </a>
+      </div>
       <h1 class="masthead__name">Dave Euson</h1>
-      <p class="masthead__eyebrow">Solutions architect&nbsp;·&nbsp;Chula Vista, California</p>
     </header>
 
     <main class="body-grid">
@@ -71,12 +79,13 @@
       <div class="bio">
         <p class="greeting">Hi! I am <span class="greeting__name">Dave</span>.</p>
         <p>I build <a class="thread" data-thread="ai" href="https://github.com/DaveEuson" target="_blank" rel="noopener">AI and GPU-accelerated pipelines</a> for companies that move enormous amounts of video. With a <a class="thread" data-thread="cast" href="assets/Dave-Euson-Resume.pdf" target="_blank" rel="noopener">20-year background in broadcast</a>, I specialize in <a class="thread" data-thread="arch" href="https://www.linkedin.com/in/daveeusonpost/" target="_blank" rel="noopener">connecting the dots between complex media systems</a>. Off the clock, I'm usually <a class="thread" data-thread="code" href="https://github.com/DaveEuson" target="_blank" rel="noopener">building desktop applications in React and Electron</a> or <a class="thread" data-thread="music" href="https://soundcloud.com/davee264" target="_blank" rel="noopener">writing electronic music in FL Studio</a>.</p>
+        <p>Lately that has meant <a class="thread" data-thread="lately" href="#lately">a 24-hour channel of fake TV ads, a pirate show that runs itself, and a handful of apps</a>.</p>
       </div>
 
       <div class="detail">
 
         <div class="panel is-active" data-panel="idle">
-          <p class="panel__kicker panel__kicker--idle">Five things worth knowing</p>
+          <p class="panel__kicker panel__kicker--idle">Six things worth knowing</p>
           <p class="panel__body panel__body--idle only-hover">Hover any of the underlined phrases and the detail lands here. Click one and it takes you where it lives: LinkedIn, GitHub, SoundCloud, the résumé.</p>
           <p class="panel__body panel__body--idle only-touch">Tap any of the underlined phrases and the detail lands here. Tap it again and it takes you where it lives: LinkedIn, GitHub, SoundCloud, the résumé.</p>
         </div>
@@ -117,15 +126,100 @@
           <p class="panel__click">The strip below is the rest of them</p>
         </div>
 
+        <div class="panel" data-panel="lately">
+          <p class="panel__kicker panel__kicker--onair">06&nbsp;/&nbsp;Lately</p>
+          <p class="panel__body">Two channels that program themselves, a benchmark for local video models, and four desktop apps. Most of it started as a joke and then needed a deploy script.</p>
+          <p class="panel__click">↓ The list is just below</p>
+        </div>
+
       </div>
     </main>
 
-    <footer class="footer">
+  </div>
+
+  <!-- The second copy exists only so the loop is seamless; the animation
+       translates the track by exactly half its width. -->
+  <div class="ticker">
+    <div class="ticker__track">
+      <div class="ticker__run">
+        <span class="ticker__lead">Now running</span>
+        <span>SlopMart 24&nbsp;·&nbsp;live around the clock on Twitch</span>
+        <span class="ticker__sep" aria-hidden="true">/</span>
+        <span>The Soggy Biscuit&nbsp;·&nbsp;new episode Tuesdays, 9 AM Pacific</span>
+        <span class="ticker__sep" aria-hidden="true">/</span>
+        <span>videobench&nbsp;·&nbsp;twelve open video models, one RTX 4070</span>
+        <span class="ticker__sep" aria-hidden="true">/</span>
+        <span>Chat Rave&nbsp;·&nbsp;house, 124 BPM, A minor</span>
+        <span class="ticker__sep" aria-hidden="true">/</span>
+      </div>
+      <div class="ticker__run" aria-hidden="true">
+        <span class="ticker__lead">Now running</span>
+        <span>SlopMart 24&nbsp;·&nbsp;live around the clock on Twitch</span>
+        <span class="ticker__sep">/</span>
+        <span>The Soggy Biscuit&nbsp;·&nbsp;new episode Tuesdays, 9 AM Pacific</span>
+        <span class="ticker__sep">/</span>
+        <span>videobench&nbsp;·&nbsp;twelve open video models, one RTX 4070</span>
+        <span class="ticker__sep">/</span>
+        <span>Chat Rave&nbsp;·&nbsp;house, 124 BPM, A minor</span>
+        <span class="ticker__sep">/</span>
+      </div>
+    </div>
+  </div>
+  </div>
+
+    <section class="lately wrap" id="lately">
+      <div class="lately__head">
+        <h2 class="lately__title">Lately</h2>
+        <p class="lately__kicker">Seven things, newest first</p>
+      </div>
+
+      <div class="rows">
+        <a class="row" data-thread="slop" href="https://twitch.tv/slopmart" target="_blank" rel="noopener">
+          <span class="row__lead"><span class="row__num row__num--onair">01</span><span class="row__name">SlopMart 24</span></span>
+          <span class="row__desc">A 24/7 Twitch channel that loops AI-generated 90s TV ads for products that do not exist. Infomercials, toys, car lots, parody pharma.</span>
+          <span class="row__go">Twitch →</span>
+        </a>
+        <a class="row" data-thread="biscuit" href="https://www.youtube.com/@soggybiscuitshow" target="_blank" rel="noopener">
+          <span class="row__lead"><span class="row__num row__num--onair">02</span><span class="row__name">The Soggy Biscuit</span></span>
+          <span class="row__desc">An AI pirate tabletop show. One-minute episodes every Tuesday, a 24-episode season, rendered and published on autopilot.</span>
+          <span class="row__go">YouTube →</span>
+        </a>
+        <a class="row" data-thread="bench" href="https://github.com/DaveEuson/AI-Video-Bench" target="_blank" rel="noopener">
+          <span class="row__lead"><span class="row__num">03</span><span class="row__name">videobench</span></span>
+          <span class="row__desc">How fast can this computer turn a prompt into five seconds of AI video, and which open model makes the best one? Runs entirely locally.</span>
+          <span class="row__go">GitHub →</span>
+        </a>
+        <a class="row" data-thread="rig" href="https://github.com/DaveEuson/RigMatch" target="_blank" rel="noopener">
+          <span class="row__lead"><span class="row__num">04</span><span class="row__name">RigMatch</span></span>
+          <span class="row__desc">A dating game show for your PC. Models are contestants, benchmarks are speed dates, and the winner is the best local model your machine can actually run.</span>
+          <span class="row__go">GitHub →</span>
+        </a>
+        <a class="row" data-thread="pals" href="https://github.com/DaveEuson/netpals" target="_blank" rel="noopener">
+          <span class="row__lead"><span class="row__num">05</span><span class="row__name">Netpals</span></span>
+          <span class="row__desc">A 2003-style buddy list where the buddies are AI personas who IM you through the day. Beige windows, door sounds, a dial-up modem if you want one.</span>
+          <span class="row__go">GitHub →</span>
+        </a>
+        <!-- No public repo yet, so this row is not a link. -->
+        <div class="row" data-thread="vibe">
+          <span class="row__lead"><span class="row__num">06</span><span class="row__name">VibeTunes</span></span>
+          <span class="row__desc">A tray app that plays a live soundtrack to your Claude Code sessions and your typing. Electron and Tone.js.</span>
+          <span class="row__go">Not out yet</span>
+        </div>
+        <a class="row" data-thread="rave" href="https://github.com/DaveEuson/chat-rave" target="_blank" rel="noopener">
+          <span class="row__lead"><span class="row__num">07</span><span class="row__name">Chat Rave</span></span>
+          <span class="row__desc">Twitch chat plays a synthesized house set. Kick, clap, hats and scale-locked bass, with no samples and no build step.</span>
+          <span class="row__go">GitHub →</span>
+        </a>
+      </div>
+    </section>
+
+    <footer class="footer wrap">
       <nav class="linkrow" aria-label="Elsewhere">
         <a class="btn btn-secondary" href="mailto:DaveEuson@gmail.com">Email</a>
         <a class="btn btn-secondary" href="https://www.linkedin.com/in/daveeusonpost/" target="_blank" rel="noopener">LinkedIn</a>
         <a class="btn btn-secondary" href="https://github.com/DaveEuson" target="_blank" rel="noopener">GitHub</a>
         <a class="btn btn-secondary" href="https://soundcloud.com/davee264" target="_blank" rel="noopener">SoundCloud</a>
+        <a class="btn btn-secondary" href="https://twitch.tv/slopmart" target="_blank" rel="noopener">Twitch</a>
         <a class="btn btn-primary" href="assets/Dave-Euson-Resume.pdf" target="_blank" rel="noopener">Résumé</a>
       </nav>
 

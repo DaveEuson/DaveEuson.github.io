@@ -5,12 +5,19 @@
 (function () {
   'use strict';
 
-  var THREADS = ['arch', 'cast', 'ai', 'music', 'code', 'photo'];
+  var THREADS = ['arch', 'cast', 'ai', 'music', 'code', 'photo', 'lately'];
+
+  // The project rows have no photograph of their own; each borrows the
+  // backdrop layer of an existing thread or strip photo.
+  var BORROWS = {
+    lately: 'stage', slop: 'stage', biscuit: 'ocean', bench: 'ai',
+    rig: 'city', pals: 'code', vibe: 'music', rave: 'arena'
+  };
 
   var page    = document.getElementById('page');
   var layers  = document.querySelectorAll('.backdrop__layer[data-layer]');
   var panels  = document.querySelectorAll('.panel');
-  var phrases = document.querySelectorAll('.thread[data-thread]');
+  var phrases = document.querySelectorAll('.thread[data-thread], .row[data-thread], .onair[data-thread]');
   var thumbs  = document.querySelectorAll('.strip__thumb[data-thread]');
 
   var active = null;
@@ -43,13 +50,16 @@
     active = key;
 
     // Strip-only photos have a backdrop but no panel: the detail column
-    // clears and only the photograph changes.
-    var panelKey = THREADS.indexOf(key) !== -1 ? key : (key === null ? 'idle' : '');
+    // clears and only the photograph changes. Project rows carry their own
+    // description, so the detail column stays on the idle panel for them.
+    var panelKey = THREADS.indexOf(key) !== -1 ? key
+                 : (key === null || BORROWS[key]) ? 'idle' : '';
+    var layerKey = BORROWS[key] || key;
 
-    each(layers,  function (el) { toggle(el, el.dataset.layer === key); });
+    each(layers,  function (el) { toggle(el, el.dataset.layer === layerKey); });
     each(panels,  function (el) { toggle(el, el.dataset.panel === panelKey); });
     each(phrases, function (el) { toggle(el, el.dataset.thread === key); });
-    each(thumbs,  function (el) { toggle(el, el.dataset.thread === key); });
+    each(thumbs,  function (el) { toggle(el, el.dataset.thread === layerKey); });
   }
 
   function each(list, fn) { Array.prototype.forEach.call(list, fn); }
