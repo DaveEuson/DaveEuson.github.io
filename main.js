@@ -10,7 +10,7 @@
   // The project rows have no photograph of their own; each borrows the
   // backdrop layer of an existing thread or strip photo.
   var BORROWS = {
-    lately: 'stage', slop: 'stage', biscuit: 'ocean', bench: 'ai',
+    slop: 'stage', biscuit: 'ocean', bench: 'ai',
     rig: 'city', pals: 'code', vibe: 'music', rave: 'arena'
   };
 

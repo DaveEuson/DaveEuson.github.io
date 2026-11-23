@@ -121,6 +121,9 @@ img { display: block; max-width: 100%; }
 .backdrop__layer--citylights { background-image: url("photos/citylights.webp"); }
 .backdrop__layer--stage      { background-image: url("photos/stage-lights.webp"); }
 .backdrop__layer--skyline    { background-image: url("photos/skyline.webp"); }
+/* A 1200px composite, not a photograph: it has no small cut, so it is
+   deliberately absent from the 760px block below. */
+.backdrop__layer--lately     { background-image: url("photos/lately.webp"); }
 
 /* Narrow viewports get a 1000px-long-edge cut of each frame: 1.63 MB of
    backdrop becomes 0.66 MB. The photographs sit at 4–10% brightness under the
